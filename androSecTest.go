@@ -42,5 +42,6 @@ func main() {
 
 	dependency.AreAllReady()
 
-	androidpkg.Savelocal(args.AppName)
+	pkgname := androidpkg.Savelocal(args.AppName)
+	androidpkg.Setup(pkgname)
 }
