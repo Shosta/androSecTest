@@ -16,8 +16,11 @@ limitations under the License.
 package main
 
 import (
-	"github.com/alexflint/go-arg"
+	"github.com/shosta/androSecTest/androidpkg"
+	dependency "github.com/shosta/androSecTest/command/dependency"
 	"github.com/shosta/androSecTest/variables"
+
+	"github.com/alexflint/go-arg"
 )
 
 var args struct {
@@ -37,4 +40,7 @@ func main() {
 		variables.IsVerboseLogRequired = true
 	}
 
+	dependency.AreAllReady()
+
+	androidpkg.Savelocal(args.AppName)
 }
