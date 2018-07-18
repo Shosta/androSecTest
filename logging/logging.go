@@ -13,9 +13,9 @@ func PrintlnDebug(log string) {
 	}
 }
 
-func PrintlnError(log string) {
+func PrintlnError(err interface{}) {
 	if variables.IsDebug {
-		fmt.Println(Red("[error] ") + log)
+		fmt.Println(Red("[error] ") + fmt.Sprint(err))
 	}
 }
 
@@ -28,4 +28,8 @@ func PrintlnVerbose(log string) {
 
 func Println(log string) {
 	fmt.Println(log)
+}
+
+func Print(log string) {
+	fmt.Print(log)
 }
