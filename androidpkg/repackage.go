@@ -115,15 +115,7 @@ func sign(pkgname string) {
 		pkgLoc + ".b.apk",
 	}
 	command.Run("java", cmdArgs)
-
-	// cmdArgs := []string{
-	// 	"-i",
-	// 	"-c",
-	// 	"signapk",
-	// 	pkgLoc + ".b.apk",
-	// }
-	// command.RunAlias("/bin/bash -i -c signapk " + pkgLoc + ".b.apk")
-	// command.RunCmd("bash -ic -rcfile ~/.bash_aliases signapk " + pkgLoc + ".b.apk")
+	// command.RunAlias("/bin/bash", "-c", "signapk " + pkgLoc + ".b.apk")
 }
 
 //adb uninstall " + package_name
