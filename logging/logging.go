@@ -29,3 +29,7 @@ func PrintlnVerbose(log string) {
 func Println(log string) {
 	fmt.Println(log)
 }
+
+func Print(log string) {
+	fmt.Print(log)
+}
