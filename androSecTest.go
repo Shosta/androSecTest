@@ -26,6 +26,7 @@ import (
 var args struct {
 	Package string `arg:"-p" help:"package name"`
 	Dest    string `arg:"-d" help:"destination folder absolute path"`
+	Attacks bool   `arg:"-a" help:"perform only attacks"`
 	Verbose bool   `arg:"-v" help:"verbosity level"`
 }
 
@@ -43,6 +44,11 @@ func main() {
 
 	dependency.AreAllReady()
 
-	pkgname := androidpkg.Savelocal(args.AppName)
-	androidpkg.Setup(pkgname)
+	pkgname = androidpkg.Package(args.Package)
+	variables.SecAssessmentPath = variables.SecAssessmentPath + "/" + pkgname + variables.AttacksDir
+	if args.Attacks == false {
+		androidpkg.Savelocal(pkgname)
+		androidpkg.Setup(pkgname)
+	}
+
 }
