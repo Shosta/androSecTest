@@ -12,6 +12,7 @@ func createRootFolder() {
 	os.MkdirAll(variables.SecurityAssessmentRootDir, os.ModePerm)
 }
 
+// CreateAttacksFolder : Create the attack folder
 func CreateAttacksFolder(pkgname string) {
 	createRootFolder()
 
@@ -24,4 +25,9 @@ func CreateAttacksFolder(pkgname string) {
 	os.MkdirAll(pkgdir+variables.AttacksDir+variables.InsecureLoggingDir, os.ModePerm)
 	os.MkdirAll(pkgdir+variables.AttacksDir+variables.InsecureStorageDir, os.ModePerm)
 	os.MkdirAll(pkgdir+variables.AttacksDir+variables.InsecureBackupDir, os.ModePerm)
+}
+
+// InsecStorageDirPath : Return the Insecure Storage folder path.
+func InsecStorageDirPath(pkgname string) string {
+	return variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.InsecureStorageDir
 }
