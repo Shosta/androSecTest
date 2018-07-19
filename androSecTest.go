@@ -17,6 +17,7 @@ package main
 
 import (
 	"github.com/shosta/androSecTest/androidpkg"
+	"github.com/shosta/androSecTest/attacks"
 	dependency "github.com/shosta/androSecTest/command/dependency"
 	"github.com/shosta/androSecTest/variables"
 
@@ -51,4 +52,5 @@ func main() {
 		androidpkg.Setup(pkgname)
 	}
 
+	attacks.Do(pkgname)
 }

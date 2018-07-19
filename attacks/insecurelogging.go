@@ -1,12 +1,12 @@
 package attacks
 
 import (
-	"bufio"
 	"os"
 	"os/exec"
 
 	"github.com/shosta/androSecTest/command"
 	"github.com/shosta/androSecTest/logging"
+	"github.com/shosta/androSecTest/terminal"
 
 	"github.com/shosta/androSecTest/variables"
 )
@@ -43,34 +43,18 @@ func adminStrInLog() {
 // A loop method that ask the user to enter a string, then search it in the log file through a grep command and ask the user if he wants to do another search.
 func userInputStrInLog() {
 	logging.Print(logging.Blue("Enter the string you want to look for in the log file.\n> "))
-	usrinput := userinput()
+	usrinput := terminal.Waitfor()
 	if usrinput != "" {
 		logging.Println(logging.Green("Looking for \"") + logging.Bold(usrinput) + "\" in log file.")
 		strInLog(usrinput)
 		logging.Print(logging.Blue("Do you want to look for another string? [y][n]\n> "))
-		newSearch := userinput()
+		newSearch := terminal.Waitfor()
 		if newSearch == "y" {
 			userInputStrInLog()
 		}
 
 		return
 	}
-}
-
-// Wait for a user input on the CLI.
-// It returns the user input as a string.
-func userinput() string {
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		logging.PrintlnDebug("User wrote: " + scanner.Text())
-		return scanner.Text()
-	}
-
-	if scanner.Err() != nil {
-		// handle error.
-	}
-
-	return ""
 }
 
 // Launch a logcat command and push the result to a file.
@@ -82,7 +66,8 @@ func launchlogcat(pkgname string) {
 	logging.PrintlnDebug("Launched logcat asynchronously.")
 	cmd.Start()
 	logging.PrintlnDebug("Wait for any user input to kill the logcat process.")
-	userinput()
+	logging.Println("Press any key to stop getting logs.")
+	terminal.Waitfor()
 
 	logging.PrintlnDebug("Stopped logcat.")
 	cmd.Process.Signal(os.Kill)
@@ -90,7 +75,7 @@ func launchlogcat(pkgname string) {
 
 // Test if something insecure is logged through logcat while using the device.
 // It tests the "password", "admin" and "key" related strings and then let the user test its own strings.
-func InsecureLogging(pkgname string) {
+func DoInsecureLog(pkgname string) {
 	logging.Println(logging.Green("Test Insecure Logging"))
 	launchlogcat(pkgname)
 
