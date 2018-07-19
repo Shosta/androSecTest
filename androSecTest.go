@@ -24,16 +24,17 @@ import (
 )
 
 var args struct {
-	AppName string `arg:"-a" help:"application name"`
+	Package string `arg:"-p" help:"package name"`
 	Dest    string `arg:"-d" help:"destination folder absolute path"`
 	Verbose bool   `arg:"-v" help:"verbosity level"`
 }
 
 func main() {
 	arg.MustParse(&args)
-
-	if args.AppName == "" {
+	pkgname := ""
+	if args.Package == "" {
 		// Wait for the user input to get the package.
+		pkgname = "com.orange.wifiorange"
 	}
 
 	if args.Verbose {
