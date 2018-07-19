@@ -17,6 +17,7 @@ package main
 
 import (
 	"github.com/shosta/androSecTest/androidpkg"
+	"github.com/shosta/androSecTest/attacks"
 	dependency "github.com/shosta/androSecTest/command/dependency"
 	"github.com/shosta/androSecTest/variables"
 
@@ -24,16 +25,18 @@ import (
 )
 
 var args struct {
-	AppName string `arg:"-a" help:"application name"`
+	Package string `arg:"-p" help:"package name"`
 	Dest    string `arg:"-d" help:"destination folder absolute path"`
+	Attacks bool   `arg:"-a" help:"perform only attacks"`
 	Verbose bool   `arg:"-v" help:"verbosity level"`
 }
 
 func main() {
 	arg.MustParse(&args)
-
-	if args.AppName == "" {
+	pkgname := ""
+	if args.Package == "" {
 		// Wait for the user input to get the package.
+		pkgname = "com.orange.wifiorange"
 	}
 
 	if args.Verbose {
@@ -42,6 +45,12 @@ func main() {
 
 	dependency.AreAllReady()
 
-	pkgname := androidpkg.Savelocal(args.AppName)
-	androidpkg.Setup(pkgname)
+	pkgname = androidpkg.Package(args.Package)
+	variables.SecAssessmentPath = variables.SecAssessmentPath + "/" + pkgname + variables.AttacksDir
+	if args.Attacks == false {
+		androidpkg.Savelocal(pkgname)
+		androidpkg.Setup(pkgname)
+	}
+
+	attacks.Do(pkgname)
 }
