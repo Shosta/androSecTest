@@ -31,3 +31,12 @@ func CreateAttacksFolder(pkgname string) {
 func InsecStorageDirPath(pkgname string) string {
 	return variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.InsecureStorageDir
 }
+
+// DecodedPackageDirPath : Return the Decoded Package folder path.
+func DecodedPackageDirPath(pkgname string) string {
+	return variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.DecodedPackageDir
+}
+
+func createLeakageDir(pkgname string) {
+	os.MkdirAll(DecodedPackageDirPath(pkgname)+"/leakages", os.ModePerm)
+}
