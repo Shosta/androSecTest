@@ -49,7 +49,7 @@ func mkdbg(pkgname string) {
 	logging.Println(logging.Green("Make package debuggable"))
 
 	var attacksDir string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	var decodedDir string = attacksDir + variables.DecodedPackageDir
+	var decodedDir string = attacksDir + variables.DisassemblePackageDir
 	logging.PrintlnVerbose(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(decodedDir))
 
 	//cmd = "sed -i -e 's/<application /<application android:debuggable=\"true\" /' /tmp/Attacks/DecodedPackage/AndroidManifest.xml"
@@ -69,7 +69,7 @@ func allowbackup(pkgname string) {
 	logging.Println(logging.Green("Allow backup on package"))
 
 	var attacksDir string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	var decodedDir string = attacksDir + variables.DecodedPackageDir
+	var decodedDir string = attacksDir + variables.DisassemblePackageDir
 
 	//cmd = "sed -i -e 's/android:allowBackup=\"false\" / /' /tmp/Attacks/DecodedPackage/AndroidManifest.xml"
 	cmdName := "sed"

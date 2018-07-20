@@ -7,16 +7,14 @@ import (
 	"github.com/shosta/androSecTest/variables"
 )
 
-// Allow the user to select the package he wants to save locally on its computer through a simple part of the package name.
+// Savelocal : Allow the user to select the package he wants to save locally on its computer through a simple part of the package name.
 // The package is saved in a folder on the $Home folder.
 // It returns the package name
-func Savelocal(pkgname string) string {
+func Savelocal(pkgname string) {
 
 	attacks.CreateAttacksFolder(pkgname)
-	var pkgpath = adb.Path(pkgname)
+	var pkgpath = adb.PkgPath(pkgname)
 	pull(pkgname, pkgpath)
-
-	return pkgname
 }
 
 /**
@@ -28,7 +26,7 @@ package_name The package name, without the "apk" extension.
 Comment: Use the shell command : adb shell pm path 'pkgname'
 */
 func path(pkgname string) string {
-	var path = adb.Path(pkgname)
+	var path = adb.PkgPath(pkgname)
 
 	return path
 }
