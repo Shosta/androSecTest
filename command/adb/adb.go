@@ -42,7 +42,7 @@ func Pull(pkgpath string, pkgdest string) string {
 
 // Get the path of the package name on the connected device on adb.
 // It returns the package's path on the device as a string.
-func Path(pkgname string) string {
+func PkgPath(pkgname string) string {
 	logging.PrintlnDebug(logging.Green("Package name: ") + pkgname)
 
 	var args = []string{"shell", "pm", "path", pkgname}
