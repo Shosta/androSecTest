@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"os/exec"
 
+	"github.com/shosta/androSecTest/attacks"
+
 	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/variables"
 )
 
 func runApktool(args ...string) string {
@@ -19,46 +20,42 @@ func runApktool(args ...string) string {
 	return string(output)
 }
 
+// Disassemble :
 // TODO Il faut prendre en compte les cas d'erreurs d'apktool.
 func Disassemble(pkgname string) string {
-	var attacksDir string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	var sourcePkgDir string = attacksDir + variables.SourcePackageDir
-	var decodedDir string = attacksDir + variables.DecodedPackageDir
 
 	cmdArgs := []string{
 		"d",
-		sourcePkgDir + "/" + pkgname + ".apk",
+		attacks.SourcePackageDirPath(pkgname) + "/" + pkgname + ".apk",
 		"-f",
 		"-o",
-		decodedDir,
+		attacks.DisassemblePackageDirPath(pkgname),
 	}
 
 	var output = runApktool(cmdArgs...)
 	logging.PrintlnVerbose(output)
 
-	logging.Println(logging.Green("Package disassembled with success") + " to " + logging.Bold(decodedDir))
+	logging.Println(logging.Green("Package disassembled with success") + " to " + logging.Bold(attacks.DisassemblePackageDirPath(pkgname)))
 
 	return output
 }
 
+// Build :
 // TODO Il faut prendre en compte les cas d'erreurs d'apktool.
 //cmd = "apktool b /tmp/Attacks/DecodedPackage -o /tmp/Attacks/DebuggablePackage/" + package_name + ".b.apk"
 func Build(pkgname string) string {
-	var attacksDir string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	var decodedDir string = attacksDir + variables.DecodedPackageDir
-	var debugPkgDir string = attacksDir + variables.DebuggablePackageDir
 
 	cmdArgs := []string{
 		"b",
-		decodedDir,
+		attacks.DisassemblePackageDirPath(pkgname),
 		"-o",
-		debugPkgDir + "/" + pkgname + ".b.apk",
+		attacks.DebugPkgDirPath(pkgname) + "/" + pkgname + ".b.apk",
 	}
 
 	var output = runApktool(cmdArgs...)
 	logging.PrintlnVerbose(output)
 
-	logging.Println(logging.Green("Package built with success") + " to " + logging.Bold(debugPkgDir))
+	logging.Println(logging.Green("Package built with success") + " to " + logging.Bold(attacks.DebugPkgDirPath(pkgname)))
 
 	return output
 }

@@ -24,6 +24,7 @@ func copyDump(pkgname string) {
 func pullLocalStorage(pkgname string) {
 	logging.Println(logging.Green("Pull every files from the local storage of the \"" + pkgname + "\" package."))
 
+	logging.Println("In progress...")
 	var cmd = "/home/shosta/ShostaSyncBox/Developpement/HackingTools/humpty-dumpty-android-master/humpty.sh -a " + pkgname
 	command.RunAlias(cmd)
 
@@ -33,6 +34,7 @@ func pullLocalStorage(pkgname string) {
 // DoInsecureStorage :
 func DoInsecureStorage(pkgname string) {
 	logging.Println(logging.Green("Test Insecure Storage"))
+	pullLocalStorage(pkgname)
 
 	logging.Println("Did you use all the features of the application? [y]es [n]o")
 	terminal.Waitfor()

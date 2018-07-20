@@ -19,6 +19,7 @@ import (
 	"github.com/shosta/androSecTest/androidpkg"
 	"github.com/shosta/androSecTest/attacks"
 	dependency "github.com/shosta/androSecTest/command/dependency"
+	"github.com/shosta/androSecTest/logging"
 	"github.com/shosta/androSecTest/variables"
 
 	"github.com/alexflint/go-arg"
@@ -32,20 +33,22 @@ var args struct {
 }
 
 func main() {
+	dependency.AreAllReady()
+
 	arg.MustParse(&args)
 	pkgname := ""
 	if args.Package == "" {
 		// Wait for the user input to get the package.
-		pkgname = "com.orange.wifiorange"
+		logging.PrintlnDebug("No package provided")
+		pkgname = "com.orange.vvm"
+	} else {
+		pkgname = androidpkg.Package(args.Package)
 	}
 
 	if args.Verbose {
 		variables.IsVerboseLogRequired = true
 	}
 
-	dependency.AreAllReady()
-
-	pkgname = androidpkg.Package(args.Package)
 	variables.SecAssessmentPath = variables.SecAssessmentPath + "/" + pkgname + variables.AttacksDir
 	if args.Attacks == false {
 		androidpkg.Savelocal(pkgname)
