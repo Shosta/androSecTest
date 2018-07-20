@@ -17,5 +17,6 @@ func Do(pkgname string) {
 	if usrinput == "a" {
 		DoInsecureLog(pkgname)
 		DoInsecureStorage(pkgname)
+		DoReverse(pkgname)
 	}
 }
