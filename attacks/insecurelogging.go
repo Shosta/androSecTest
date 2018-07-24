@@ -18,6 +18,7 @@ func strInLog(str string, pkgname string) {
 	var resFilePath = InsecLoggingDirPath(pkgname) + "/grep-" + str + ".txt"
 	logging.PrintlnDebug("Insecure Logging file path: " + logFilePath)
 	logging.PrintlnDebug("Res file path: " + resFilePath)
+	// TODO : Use a grep command from grep.go
 	cmd := "grep " + str + " " + logFilePath + " > " + resFilePath
 	command.RunAlias(cmd)
 }

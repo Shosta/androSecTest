@@ -6,6 +6,7 @@ import (
 	"github.com/shosta/androSecTest/logging"
 )
 
+// AreAllReady :
 func AreAllReady() bool {
 	var areAllReady = true
 
@@ -20,6 +21,11 @@ func AreAllReady() bool {
 	}
 
 	areAllReady = isSignApkInstalled()
+	if areAllReady != true {
+		return false
+	}
+
+	areAllReady = isJadxInstalled()
 	if areAllReady != true {
 		return false
 	}
@@ -49,13 +55,30 @@ func isApktoolInstalled() bool {
 	return true
 }
 
+// TODO : Move the signapk executable path to an external folder.
+// Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
 func isSignApkInstalled() bool {
+	// TODO : Check from the internal setup file and not the LookPath as signapk is not in the PATH.
 	path, err := exec.LookPath("signapk")
 	if err != nil {
 		logging.PrintlnError("didn't find 'signapk' executable\n")
 		return false
 	}
 	logging.PrintlnVerbose("'signapk' executable is in " + path)
+
+	return true
+}
+
+// TODO : Move the jadx executable path to an external folder.
+// Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
+func isJadxInstalled() bool {
+	// TODO : Check from the internal setup file and not the LookPath as signapk is not in the PATH.
+	path, err := exec.LookPath("jadx")
+	if err != nil {
+		logging.PrintlnError("didn't find 'jadx' executable\n")
+		return false
+	}
+	logging.PrintlnVerbose("'jadx' executable is in " + path)
 
 	return true
 }

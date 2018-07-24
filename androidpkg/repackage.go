@@ -1,13 +1,16 @@
 package androidpkg
 
 import (
+	"os"
+
+	folders "github.com/shosta/androSecTest/attacks"
 	"github.com/shosta/androSecTest/command"
 	"github.com/shosta/androSecTest/command/adb"
 	"github.com/shosta/androSecTest/command/apktool"
 	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/variables"
 )
 
+// Setup :
 func Setup(pkgname string) {
 	unzip(pkgname)
 	disassemble(pkgname)
@@ -20,16 +23,18 @@ func Setup(pkgname string) {
 
 // Unzip the package to the 'unzippedPackage' Folder
 func unzip(pkgname string) {
-	var attacksDir string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	var unzipDir string = attacksDir + variables.UnzippedPackageDir
-	logging.Println(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(unzipDir))
+	// var attacksDir = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
+	// var unzipDir = attacksDir + variables.UnzippedPackageDir
+	sourceDirPath := folders.SourcePackageDirPath(pkgname)
+	unzipDirPath := folders.UnzipDirPath(pkgname)
+	logging.Println(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(unzipDirPath))
 
 	//var cmd string = "unzip " + attacksDir + variables.SourcePackageDir + "/" + pkgname + ".apk '*' -d " + unzipDir
 	cmdName := "unzip"
 	cmdArgs := []string{
-		attacksDir + variables.SourcePackageDir + "/" + pkgname + ".apk",
+		sourceDirPath + "/" + pkgname + ".apk",
 		"-d",
-		unzipDir,
+		unzipDirPath,
 	}
 	command.Run(cmdName, cmdArgs)
 
@@ -48,9 +53,10 @@ func disassemble(pkgname string) {
 func mkdbg(pkgname string) {
 	logging.Println(logging.Green("Make package debuggable"))
 
-	var attacksDir string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	var decodedDir string = attacksDir + variables.DisassemblePackageDir
-	logging.PrintlnVerbose(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(decodedDir))
+	// var attacksDir = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
+	// var decodedDir = attacksDir + variables.DisassemblePackageDir
+	disassembledDirPath := folders.DisassemblePackageDirPath(pkgname)
+	logging.PrintlnVerbose(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(disassembledDirPath))
 
 	//cmd = "sed -i -e 's/<application /<application android:debuggable=\"true\" /' /tmp/Attacks/DecodedPackage/AndroidManifest.xml"
 	cmdName := "sed"
@@ -58,18 +64,20 @@ func mkdbg(pkgname string) {
 		"-i",
 		"-e",
 		"s/<application /<application android:debuggable=\"true\" /",
-		decodedDir + "/AndroidManifest.xml",
+		disassembledDirPath + "/AndroidManifest.xml",
 	}
 	command.Run(cmdName, cmdArgs)
 
 	logging.Println(logging.Bold("Done"))
 }
 
+// TODO : Should verify that the AllowBackup is not already available in the AppManifest.xml file.
 func allowbackup(pkgname string) {
 	logging.Println(logging.Green("Allow backup on package"))
 
-	var attacksDir string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	var decodedDir string = attacksDir + variables.DisassemblePackageDir
+	// var attacksDir = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
+	// var decodedDir = attacksDir + variables.DisassemblePackageDir
+	disassembledDir := folders.DisassemblePackageDirPath(pkgname)
 
 	//cmd = "sed -i -e 's/android:allowBackup=\"false\" / /' /tmp/Attacks/DecodedPackage/AndroidManifest.xml"
 	cmdName := "sed"
@@ -77,7 +85,7 @@ func allowbackup(pkgname string) {
 		"-i",
 		"-e",
 		"s/android:allowBackup=\"false\" / /",
-		decodedDir + "/AndroidManifest.xml",
+		disassembledDir + "/AndroidManifest.xml",
 	}
 	logging.PrintlnDebug("Remove the android:allowBackup=\"false\" if it is in the AndroidManifest.xml file.")
 	command.Run(cmdName, cmdArgs)
@@ -87,7 +95,7 @@ func allowbackup(pkgname string) {
 		"-i",
 		"-e",
 		"s/<application /<application android:allowBackup=\"true\" /",
-		decodedDir + "/AndroidManifest.xml",
+		disassembledDir + "/AndroidManifest.xml",
 	}
 	logging.PrintlnDebug("Add the android:allowBackup=\"true\" to the AndroidManifest.xml file.")
 	command.Run(cmdName, cmdArgs)
@@ -105,14 +113,14 @@ func rebuild(pkgname string) {
 
 //signapk /tmp/Attacks/DebuggablePackage/" + package_name + ".b.apk"
 func sign(pkgname string) {
-	var pkgLoc string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.DebuggablePackageDir + "/" + pkgname
-	logging.PrintlnDebug("Package to sign : " + pkgLoc + ".b.apk")
+	pkgFilePath := folders.DebugPkgDirPath(pkgname) + "/" + pkgname
+	logging.PrintlnDebug("Package to sign : " + pkgFilePath + ".b.apk")
 	//var cmd string = "java -jar /home/shosta/ShostaSyncBox/Developpement/HackingTools/SignApkUtils/sign.jar " + pkgLoc + "b.apk"
 
 	cmdArgs := []string{
 		"-jar",
 		"/home/shosta/ShostaSyncBox/Developpement/HackingTools/SignApkUtils/sign.jar",
-		pkgLoc + ".b.apk",
+		pkgFilePath + ".b.apk",
 	}
 	command.Run("java", cmdArgs)
 	// command.RunAlias("/bin/bash", "-c", "signapk " + pkgLoc + ".b.apk")
@@ -121,8 +129,13 @@ func sign(pkgname string) {
 //adb uninstall " + package_name
 //adb install /tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
 func reinstall(pkgname string) {
-	adb.Uninstall(pkgname)
+	pkgFilePath := folders.DebugPkgDirPath(pkgname) + "/" + pkgname + ".b.s.apk"
+	if _, err := os.Stat(pkgFilePath); os.IsNotExist(err) {
+		logging.PrintlnError("Debuggable pakcage does not exist. Please review the repackaging errors and retry the process before we can install it on the device.")
 
-	var localpkgPath string = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.DebuggablePackageDir + "/" + pkgname + ".b.s.apk"
-	adb.Install(localpkgPath)
+		return
+	}
+
+	adb.Uninstall(pkgname)
+	adb.Install(pkgFilePath)
 }
