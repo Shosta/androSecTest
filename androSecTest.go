@@ -16,13 +16,13 @@ limitations under the License.
 package main
 
 import (
+	arg "github.com/alexflint/go-arg"
 	"github.com/shosta/androSecTest/androidpkg"
 	"github.com/shosta/androSecTest/attacks"
 	dependency "github.com/shosta/androSecTest/command/dependency"
+	"github.com/shosta/androSecTest/devices"
 	"github.com/shosta/androSecTest/logging"
 	"github.com/shosta/androSecTest/variables"
-
-	"github.com/alexflint/go-arg"
 )
 
 var args struct {
@@ -34,6 +34,11 @@ var args struct {
 
 func main() {
 	dependency.AreAllReady()
+
+	if !devices.IsConnected() {
+		logging.Println(logging.Green("No device is connected.") + "\nPlease " + logging.Bold("connect a device to your computer") + " prior to any penetration testing.")
+		return
+	}
 
 	arg.MustParse(&args)
 	pkgname := ""

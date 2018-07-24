@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This program can be used as go_android_GOARCH_exec by the Go tool.
+// Package adb : This program can be used as go_android_GOARCH_exec by the Go tool.
 // It executes binaries on an android device using adb.
 package adb
 
@@ -25,7 +25,7 @@ func runAdb(args ...string) string {
 	return string(output)
 }
 
-// Pull
+// Pull :
 func Pull(pkgpath string, pkgdest string) string {
 	logging.PrintlnDebug(logging.Green("Package path : ") + logging.Bold(pkgpath))
 	logging.PrintlnDebug(logging.Green("Package destination : ") + logging.Bold(pkgdest))
@@ -40,7 +40,7 @@ func Pull(pkgpath string, pkgdest string) string {
 	return string(output)
 }
 
-// Get the path of the package name on the connected device on adb.
+// PkgPath : Get the path of the package name on the connected device on adb.
 // It returns the package's path on the device as a string.
 func PkgPath(pkgname string) string {
 	logging.PrintlnDebug(logging.Green("Package name: ") + pkgname)
@@ -54,6 +54,7 @@ func PkgPath(pkgname string) string {
 	return pkgpath
 }
 
+// ListPackages :
 func ListPackages(pkgnamepart string) []string {
 	logging.Println(logging.Green("Get the packages names") + " on the device that contains \"" + logging.Bold(pkgnamepart) + "\":")
 
@@ -64,7 +65,7 @@ func ListPackages(pkgnamepart string) []string {
 	return pkgs
 }
 
-//adb uninstall " + package_name
+//Uninstall : adb uninstall " + package_name
 func Uninstall(pkgname string) string {
 	logging.PrintlnDebug("Uninstall app on the device.")
 	out := runAdb("uninstall", pkgname)
@@ -72,11 +73,19 @@ func Uninstall(pkgname string) string {
 	return string(out)
 }
 
-//adb install /tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
+//Install : adb install /tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
 func Install(localpkgpath string) string {
 	logging.PrintlnDebug("Install app on the device.")
 	logging.PrintlnDebug("Local package path: " + localpkgpath)
 	out := runAdb("install", localpkgpath)
+
+	return string(out)
+}
+
+// Devices : List the devices connected to the computer.
+func Devices() string {
+	logging.PrintlnDebug("List devices connected to the computer.")
+	out := runAdb("devices", "-l")
 
 	return string(out)
 }
