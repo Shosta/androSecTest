@@ -22,18 +22,19 @@ func reverseApk(apkname string) {
 	logging.Println("Done")
 }
 
-// DoReverse :
+// DoReverse : Reverse the ".apk" to the ".java" files.
+// Try to deobfuscate code while reversing it.
 func DoReverse(pkgname string) {
 	logging.Println(logging.Green("Reverse apk"))
 	reverseApk(pkgname)
 	logging.Println(logging.Bold("Done"))
 
 	logging.Println(logging.Green("Check for leakage in codebase"))
-	checkForLeakage(pkgname)
+	checkForLeaks(pkgname)
 	logging.Println(logging.Bold("Done"))
 }
 
-func checkForLeakage(pkgname string) {
+func checkForLeaks(pkgname string) {
 	decoPkgPath := DecompiledPackageDirPath(pkgname)
 	createLeakageDir(pkgname)
 	grep.Passwd(decoPkgPath, decoPkgPath+variables.LeakagesDir)

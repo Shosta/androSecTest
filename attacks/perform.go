@@ -12,9 +12,9 @@ func Do(pkgname string) {
 		logging.Blue("]ll, [") +
 		logging.Red("i") +
 		logging.Blue("]nsecure logging\n> "))
-	usrinput := terminal.Waitfor()
+	usrInput := terminal.Waitfor()
 
-	if usrinput == "a" {
+	if usrInput == "a" {
 		DoInsecureLog(pkgname)
 		DoInsecureStorage(pkgname)
 		DoReverse(pkgname)
