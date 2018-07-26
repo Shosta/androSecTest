@@ -3,6 +3,8 @@ package androidpkg
 import (
 	"os"
 
+	"github.com/shosta/androSecTest/command/sed"
+
 	folders "github.com/shosta/androSecTest/attacks"
 	"github.com/shosta/androSecTest/command"
 	"github.com/shosta/androSecTest/command/adb"
@@ -22,14 +24,12 @@ func Setup(pkgname string) {
 }
 
 // Unzip the package to the 'unzippedPackage' Folder
+// cmd = "unzip " + attacksDir + variables.SourcePackageDir + "/" + pkgname + ".apk '*' -d " + unzipDir
 func unzip(pkgname string) {
-	// var attacksDir = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	// var unzipDir = attacksDir + variables.UnzippedPackageDir
 	sourceDirPath := folders.SourcePackageDirPath(pkgname)
 	unzipDirPath := folders.UnzipDirPath(pkgname)
 	logging.Println(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(unzipDirPath))
 
-	//var cmd string = "unzip " + attacksDir + variables.SourcePackageDir + "/" + pkgname + ".apk '*' -d " + unzipDir
 	cmdName := "unzip"
 	cmdArgs := []string{
 		sourceDirPath + "/" + pkgname + ".apk",
@@ -53,20 +53,10 @@ func disassemble(pkgname string) {
 func mkdbg(pkgname string) {
 	logging.Println(logging.Green("Make package debuggable"))
 
-	// var attacksDir = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	// var decodedDir = attacksDir + variables.DisassemblePackageDir
 	disassembledDirPath := folders.DisassemblePackageDirPath(pkgname)
 	logging.PrintlnVerbose(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(disassembledDirPath))
 
-	//cmd = "sed -i -e 's/<application /<application android:debuggable=\"true\" /' /tmp/Attacks/DecodedPackage/AndroidManifest.xml"
-	cmdName := "sed"
-	cmdArgs := []string{
-		"-i",
-		"-e",
-		"s/<application /<application android:debuggable=\"true\" /",
-		disassembledDirPath + "/AndroidManifest.xml",
-	}
-	command.Run(cmdName, cmdArgs)
+	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "s/<application ", "<application android:debuggable=\"true\" ")
 
 	logging.Println(logging.Bold("Done"))
 }
@@ -75,30 +65,13 @@ func mkdbg(pkgname string) {
 func allowbackup(pkgname string) {
 	logging.Println(logging.Green("Allow backup on package"))
 
-	// var attacksDir = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir
-	// var decodedDir = attacksDir + variables.DisassemblePackageDir
 	disassembledDir := folders.DisassemblePackageDirPath(pkgname)
 
-	//cmd = "sed -i -e 's/android:allowBackup=\"false\" / /' /tmp/Attacks/DecodedPackage/AndroidManifest.xml"
-	cmdName := "sed"
-	cmdArgs := []string{
-		"-i",
-		"-e",
-		"s/android:allowBackup=\"false\" / /",
-		disassembledDir + "/AndroidManifest.xml",
-	}
+	sed.Replace(disassembledDir+"/AndroidManifest.xml", "android:allowBackup=\"false\" ", " ")
 	logging.PrintlnDebug("Remove the android:allowBackup=\"false\" if it is in the AndroidManifest.xml file.")
-	command.Run(cmdName, cmdArgs)
 
-	//cmd = "sed -i -e 's/<application /<application android:allowBackup=\"true\" /' /tmp/Attacks/DecodedPackage/AndroidManifest.xml"
-	cmdArgs = []string{
-		"-i",
-		"-e",
-		"s/<application /<application android:allowBackup=\"true\" /",
-		disassembledDir + "/AndroidManifest.xml",
-	}
+	sed.Replace(disassembledDir+"/AndroidManifest.xml", "<application ", "<application android:allowBackup=\"true\" ")
 	logging.PrintlnDebug("Add the android:allowBackup=\"true\" to the AndroidManifest.xml file.")
-	command.Run(cmdName, cmdArgs)
 
 	logging.Println(logging.Bold("Done"))
 }
