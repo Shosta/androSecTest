@@ -24,6 +24,7 @@ func reverseApk(apkname string) {
 
 // DoReverse : Reverse the ".apk" to the ".java" files.
 // Try to deobfuscate code while reversing it.
+// Then it performs some research for specific leak in the codebase, looking for strings as "password", "admin", "key", etc. The results are stored in specific files.
 func DoReverse(pkgname string) {
 	logging.Println(logging.Green("Reverse apk"))
 	reverseApk(pkgname)
