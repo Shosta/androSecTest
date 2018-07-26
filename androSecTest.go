@@ -43,7 +43,7 @@ func main() {
 	arg.MustParse(&args)
 	pkgname := ""
 	if args.Package == "" {
-		// Wait for the user input to get the package.
+		// TODO : Wait for the user input to get the package.
 		logging.PrintlnDebug("No package provided")
 		pkgname = "com.orange.vvm"
 	} else {
