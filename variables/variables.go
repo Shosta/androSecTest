@@ -15,7 +15,6 @@ const InsecureBackupDir string = "/insecureBackup"
 const InsecureLoggingDir string = "/insecureLogging"
 const InsecureStorageDir string = "/insecureStorage"
 
-var SecAssessmentPath string = "/home/shosta/android/security"
 
 const Header string = "\033[95m"
 const Blue string = "\033[94m"
