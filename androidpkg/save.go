@@ -4,7 +4,6 @@ import (
 	"github.com/shosta/androSecTest/attacks"
 	"github.com/shosta/androSecTest/command/adb"
 	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/variables"
 )
 
 // Savelocal : Allow the user to select the package he wants to save locally on its computer through a simple part of the package name.
@@ -33,7 +32,7 @@ func path(pkgname string) string {
 
 // Pull a package on the connected devices via adb.
 func pull(pkgname string, pkgpath string) {
-	var destLocation = variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.SourcePackageDir + "/" + pkgname + ".apk"
+	destLocation := attacks.SourcePackageDirPath(pkgname) + "/" + pkgname + ".apk"
 	logging.Println(logging.Green("Pull package from ") + logging.Bold(pkgpath))
 
 	var out = adb.Pull(pkgpath, destLocation)
