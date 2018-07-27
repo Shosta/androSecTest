@@ -20,9 +20,9 @@ import (
 	"github.com/shosta/androSecTest/androidpkg"
 	"github.com/shosta/androSecTest/attacks"
 	dependency "github.com/shosta/androSecTest/command/dependency"
+	"github.com/shosta/androSecTest/config"
 	"github.com/shosta/androSecTest/devices"
 	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/variables"
 )
 
 var args struct {
@@ -51,10 +51,9 @@ func main() {
 	}
 
 	if args.Verbose {
-		variables.IsVerboseLogRequired = true
+		config.IsVerboseLogRequired = true
 	}
 
-	variables.SecAssessmentPath = variables.SecAssessmentPath + "/" + pkgname + variables.AttacksDir
 	if args.Attacks == false {
 		androidpkg.Savelocal(pkgname)
 		androidpkg.Setup(pkgname)

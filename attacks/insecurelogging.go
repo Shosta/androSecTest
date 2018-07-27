@@ -7,8 +7,6 @@ import (
 	"github.com/shosta/androSecTest/command"
 	"github.com/shosta/androSecTest/logging"
 	"github.com/shosta/androSecTest/terminal"
-
-	"github.com/shosta/androSecTest/variables"
 )
 
 // Get all the occurence of a string through a grep commanc and store it in a file.
@@ -60,8 +58,9 @@ func userInputStrInLog(pkgname string) {
 
 // Launch a logcat command and push the result to a file.
 func launchlogcat(pkgname string) {
-	logging.Println("Log svg : " + variables.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.InsecureLoggingDir + "/log.txt")
-	cmd := exec.Command("/bin/sh", "-c", "adb logcat > "+variables.SecurityAssessmentRootDir+"/"+pkgname+variables.AttacksDir+variables.InsecureLoggingDir+"/log.txt")
+	insecLoggingDirPath := InsecLoggingDirPath(pkgname)
+	logging.Println("Log svg : " + insecLoggingDirPath + "/log.txt")
+	cmd := exec.Command("/bin/sh", "-c", "adb logcat > "+insecLoggingDirPath+"/log.txt")
 
 	// Start command asynchronously
 	logging.PrintlnDebug("Launched logcat asynchronously.")
