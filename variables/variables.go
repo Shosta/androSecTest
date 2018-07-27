@@ -1,26 +1,27 @@
 package variables
 
-var IsVerboseLogRequired bool = false
-var IsDebug bool = true
+// Attacks folder names to have them gathered in one single place.
+const (
+	AttacksDir            = "/attacks"
+	SourcePackageDir      = "/sourcePackage"
+	UnzippedPackageDir    = "/unzippedPackage"
+	DisassemblePackageDir = "/disassemblePackage"
+	DecompiledPackageDir  = "/decompiledPackage"
+	LeakagesDir           = "/leakages"
+	DebuggablePackageDir  = "/debuggablePackage"
+	InsecureBackupDir     = "/insecureBackup"
+	InsecureLoggingDir    = "/insecureLogging"
+	InsecureStorageDir    = "/insecureStorage"
+)
 
-const SecurityAssessmentRootDir string = "/home/shosta/android/security"
-const AttacksDir string = "/attacks"
-const SourcePackageDir string = "/sourcePackage"
-const UnzippedPackageDir string = "/unzippedPackage"
-const DisassemblePackageDir string = "/disassemblePackage"
-const DecompiledPackageDir string = "/decompiledPackage"
-const LeakagesDir string = "/leakages"
-const DebuggablePackageDir string = "/debuggablePackage"
-const InsecureBackupDir string = "/insecureBackup"
-const InsecureLoggingDir string = "/insecureLogging"
-const InsecureStorageDir string = "/insecureStorage"
-
-
-const Header string = "\033[95m"
-const Blue string = "\033[94m"
-const Green string = "\033[92m"
-const Orange string = "\033[93m"
-const Red string = "\033[91m"
-const Endc string = "\033[0m"
-const Bold string = "\033[1m"
-const Underline string = "\033[4m"
+// Color const to display color on the terminal command.
+const (
+	Header    = "\033[95m"
+	Blue      = "\033[94m"
+	Green     = "\033[92m"
+	Orange    = "\033[93m"
+	Red       = "\033[91m"
+	Endc      = "\033[0m"
+	Bold      = "\033[1m"
+	Underline = "\033[4m"
+)

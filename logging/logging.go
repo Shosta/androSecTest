@@ -4,26 +4,26 @@ package logging
 import (
 	"fmt"
 
-	"github.com/shosta/androSecTest/variables"
+	"github.com/shosta/androSecTest/config"
 )
 
 // PrintlnDebug :
 func PrintlnDebug(log string) {
-	if variables.IsDebug {
+	if config.IsDebug {
 		fmt.Println(Orange("[dbg:info] ") + log)
 	}
 }
 
 // PrintlnError :
 func PrintlnError(err interface{}) {
-	if variables.IsDebug {
+	if config.IsDebug {
 		fmt.Println(Red("[error] ") + fmt.Sprint(err))
 	}
 }
 
 // PrintlnVerbose : Print the log to the terminal if the
 func PrintlnVerbose(log string) {
-	if variables.IsVerboseLogRequired {
+	if config.IsVerboseLogRequired {
 		fmt.Println(log)
 	}
 }

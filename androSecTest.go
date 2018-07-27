@@ -20,6 +20,7 @@ import (
 	"github.com/shosta/androSecTest/androidpkg"
 	"github.com/shosta/androSecTest/attacks"
 	dependency "github.com/shosta/androSecTest/command/dependency"
+	"github.com/shosta/androSecTest/config"
 	"github.com/shosta/androSecTest/devices"
 	"github.com/shosta/androSecTest/logging"
 )
@@ -50,7 +51,7 @@ func main() {
 	}
 
 	if args.Verbose {
-		variables.IsVerboseLogRequired = true
+		config.IsVerboseLogRequired = true
 	}
 
 	if args.Attacks == false {
