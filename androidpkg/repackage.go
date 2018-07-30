@@ -1,7 +1,16 @@
 package androidpkg
 
 import (
+	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
+	"path/filepath"
+	"strings"
+	"sync"
+
+	"github.com/shosta/androSecTest/images"
+	"github.com/shosta/androSecTest/manifest"
 
 	"github.com/shosta/androSecTest/command/sed"
 
@@ -18,6 +27,7 @@ func Setup(pkgname string) {
 	disassemble(pkgname)
 	mkdbg(pkgname)
 	allowbackup(pkgname)
+	addDbgBadgeOnAppIcon(pkgname)
 	rebuild(pkgname)
 	sign(pkgname)
 	reinstall(pkgname)
@@ -76,8 +86,63 @@ func allowbackup(pkgname string) {
 	logging.Println(logging.Bold("Done"))
 }
 
+// On boucle sur tous les dossiers/fichiers pour trouver les fichiers qui contiennent iconName.
+// Cela permet d'envoyer dans une channel les chemins absolus vers les icones.
+func searchForIconPaths(dirPath string, iconName string, wg *sync.WaitGroup, dirlistchan chan string) {
+	files, err := ioutil.ReadDir(dirPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, file := range files {
+		if file.IsDir() {
+			searchForIconPaths(dirPath+"/"+file.Name(), iconName, wg, dirlistchan)
+		}
+		fmt.Println(file.Name())
+		if strings.Contains(file.Name(), iconName) {
+			dirlistchan <- dirPath + "/" + file.Name()
+		}
+	}
+}
+
+func addDbgBadgeOnAppIcon(pkgname string) {
+	// TODO : Le tester sur de nombreuses applications.
+	disassembleDirPath := folders.DisassemblePackageDirPath(pkgname)
+
+	iconName := manifest.IconName(pkgname)
+
+	resDir := disassembleDirPath + "/res"
+
+	wg := new(sync.WaitGroup)
+	dirlistchan := make(chan string, 1000)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		searchForIconPaths(resDir, iconName, wg, dirlistchan)
+	}()
+
+	go func() {
+		wg.Wait()
+		close(dirlistchan)
+	}()
+	for icon := range dirlistchan {
+		var dpi string
+		if strings.HasSuffix(filepath.Dir(icon), "xxhdpi") {
+			dpi = "xxhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "xhdpi") {
+			dpi = "xhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "hdpi") {
+			dpi = "hdpi"
+		}
+
+		images.Watermark("./res/watermark/dbg/unlock_"+dpi+".png", icon)
+	}
+
+	wg.Wait()
+}
+
 func rebuild(pkgname string) {
-	logging.Println(logging.Green("Rebuild package : ") + logging.Bold(pkgname))
+	logging.Println(logging.Green("Rebuild package : ") + logging.Bold(pkgname) + "\nWork in progress...")
 
 	apktool.Build(pkgname)
 
