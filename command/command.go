@@ -49,7 +49,7 @@ func RunAlias(aliasCmd string) string {
 		logging.PrintlnError("error occured")
 		logging.PrintlnError(err)
 	}
-	logging.PrintlnVerbose(string(out))
+	// logging.PrintlnVerbose(string(out))
 
 	return string(out)
 }
