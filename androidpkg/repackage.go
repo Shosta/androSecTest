@@ -1,13 +1,14 @@
 package androidpkg
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"github.com/shosta/androSecTest/settings"
 
 	"github.com/shosta/androSecTest/images"
 	"github.com/shosta/androSecTest/manifest"
@@ -54,7 +55,7 @@ func unzip(pkgname string) {
 // Disassemble the package using the apktool that is installed on the system.
 func disassemble(pkgname string) {
 	logging.Println(logging.Green("Disassemble package : ") + logging.Bold(pkgname))
-
+	logging.Println("Work in progress...")
 	apktool.Disassemble(pkgname)
 
 	logging.Println(logging.Bold("Done"))
@@ -64,8 +65,6 @@ func mkdbg(pkgname string) {
 	logging.Println(logging.Green("Make package debuggable"))
 
 	disassembledDirPath := folders.DisassemblePackageDirPath(pkgname)
-	logging.PrintlnVerbose(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(disassembledDirPath))
-
 	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "s/<application ", "<application android:debuggable=\"true\" ")
 
 	logging.Println(logging.Bold("Done"))
@@ -159,7 +158,7 @@ func sign(pkgname string) {
 
 	cmdArgs := []string{
 		"-jar",
-		"/home/shosta/ShostaSyncBox/Developpement/HackingTools/SignApkUtils/sign.jar",
+		settings.SignApk(),
 		pkgFilePath + ".b.apk",
 	}
 	command.Run("java", cmdArgs)
