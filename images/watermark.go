@@ -18,20 +18,20 @@ func decodeSrcImage(imgSrcPath string) image.Image {
 	if err != nil {
 		log.Fatalf("failed to open: %s", err)
 	}
+	defer imgSrc.Close()
+
 	var srcImg image.Image
 	if extension.IsPNG(imgSrcPath) {
 		src, err := png.Decode(imgSrc)
 		if err != nil {
 			log.Fatalf("failed to decode: %s", err)
 		}
-		defer imgSrc.Close()
 		srcImg = src
 	} else if extension.IsJPG(imgSrcPath) {
 		src, err := jpeg.Decode(imgSrc)
 		if err != nil {
 			log.Fatalf("failed to decode: %s", err)
 		}
-		defer imgSrc.Close()
 		srcImg = src
 	}
 
