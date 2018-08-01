@@ -36,11 +36,11 @@ func choose(pkgs []string) string {
 	return strings.Split(pkgs[i-1], ":")[1]
 }
 
-// Allow the user to select the package he wants to work on through a simple part of the package name.
+// Package Allow the user to select the package he wants to work on through a simple part of the package name.
 func Package(pkgnamepart string) string {
-	var pkgs []string = adb.ListPackages(pkgnamepart)
+	var pkgs = adb.ListPackages(pkgnamepart)
 
-	var pkgname string = choose(pkgs)
+	var pkgname = choose(pkgs)
 
 	return pkgname
 }
