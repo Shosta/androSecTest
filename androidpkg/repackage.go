@@ -65,7 +65,7 @@ func mkdbg(pkgname string) {
 	logging.Println(logging.Green("Make package debuggable"))
 
 	disassembledDirPath := folders.DisassemblePackageDirPath(pkgname)
-	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "s/<application ", "<application android:debuggable=\"true\" ")
+	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "<application ", "<application android:debuggable=\"true\" ")
 
 	logging.Println(logging.Bold("Done"))
 }
