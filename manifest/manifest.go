@@ -28,7 +28,7 @@ func icon(pkgname string) string {
 	xmlFile, err := os.Open("/home/shosta/android/security/com.orange.orangeetmoi/attacks/disassemblePackage/AndroidManifest.xml")
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		fmt.Println(err)
+		logging.PrintlnError(err)
 	}
 	logging.PrintlnDebug("Successfully Opened AndroidManifest.xml")
 	// defer the closing of our xmlFile so that we can parse it later on
