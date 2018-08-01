@@ -38,7 +38,7 @@ func Setup(pkgname string) {
 func unzip(pkgname string) {
 	sourceDirPath := folders.SourcePackageDirPath(pkgname)
 	unzipDirPath := folders.UnzipDirPath(pkgname)
-	logging.Println(logging.Green("Extract package : ") + logging.Bold(pkgname) + " to " + logging.Bold(unzipDirPath))
+	logging.Println(logging.Green("Unzip package : ") + logging.Bold(pkgname) + " to " + logging.Bold(unzipDirPath))
 
 	cmdName := "unzip"
 	cmdArgs := []string{
