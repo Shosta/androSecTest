@@ -40,7 +40,8 @@ type HackingTools struct {
 }
 
 // Setup : It does the Settings set up if we don't know where to look for the external tools required to do the repackaging and the attacks.
-func Setup() {
+// You can use force=true to setup the settings whatever the values in the usersettings.json file.
+func Setup(force bool) {
 	us, err := loadUsrSettings()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
@@ -50,7 +51,7 @@ func Setup() {
 	isApktoolInstalled, apktoolpath := IsApktoolInstalled()
 	us.Tools.Apktool = apktoolpath
 
-	if us.Tools.Jadx == "" || us.Tools.SignApk == "" || us.HackingTools.HumptyDumpty == "" {
+	if us.Tools.Jadx == "" || us.Tools.SignApk == "" || us.HackingTools.HumptyDumpty == "" || force == true {
 		// Ask user to fill in the tools paths.
 		logging.Print(logging.Green("Where is located Jadx?") + " (copy and paste the absolute path to your jadx executable, should look like \"/home/user/hacking/tools/jadx/jadx\"\n" + logging.Blue(">  "))
 		jadxuserentry := terminal.Waitfor()
