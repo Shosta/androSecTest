@@ -8,6 +8,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/shosta/androSecTest/logging"
+
 	extension "github.com/shosta/androSecTest/file"
 )
 
@@ -39,6 +41,7 @@ func decodeSrcImage(imgSrcPath string) image.Image {
 // Watermark :
 func Watermark(watermarkPath string, imgSrcPath string) {
 	// Open and create the Source image
+	logging.PrintlnDebug("Decode image : " + imgSrcPath)
 	src := decodeSrcImage(imgSrcPath)
 
 	// Open and create the watermark image
