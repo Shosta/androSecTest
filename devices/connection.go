@@ -22,10 +22,10 @@ func IsConnected() bool {
 	logging.PrintlnDebug("Devices : \n" + output)
 	devicesArray := connectedDevices(output)
 
-	if len(devicesArray) > 0 {
-		logging.PrintlnDebug("No device connected to the computer.")
-		return true
+	if len(devicesArray) <= 0 {
+		logging.PrintlnDebug(logging.Red("No device") + " connected to the computer.\nPlease connect a device before launching that app.")
+		return false
 	}
 
-	return false
+	return true
 }
