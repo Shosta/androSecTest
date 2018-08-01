@@ -16,31 +16,34 @@ limitations under the License.
 package main
 
 import (
+
+	// arg "github.com/alexflint/go-arg"
+
 	arg "github.com/alexflint/go-arg"
 	"github.com/shosta/androSecTest/androidpkg"
 	"github.com/shosta/androSecTest/attacks"
-	dependency "github.com/shosta/androSecTest/command/dependency"
 	"github.com/shosta/androSecTest/config"
 	"github.com/shosta/androSecTest/devices"
 	"github.com/shosta/androSecTest/logging"
+	"github.com/shosta/androSecTest/settings"
 )
 
-var args struct {
-	Package string `arg:"-p" help:"package name"`
-	Dest    string `arg:"-d" help:"destination folder absolute path"`
-	Attacks bool   `arg:"-a" help:"perform only attacks"`
-	Verbose bool   `arg:"-v" help:"verbosity level"`
-}
-
 func main() {
-	dependency.AreAllReady()
+	var args struct {
+		Settings bool   `arg:"-s" help:"set up the user settings"`
+		Package  string `arg:"-p" help:"package name"`
+		Dest     string `arg:"-d" help:"destination folder absolute path"`
+		Attacks  bool   `arg:"-a" help:"perform only attacks"`
+		Verbose  bool   `arg:"-v" help:"verbosity level"`
+	}
+	arg.MustParse(&args)
+	settings.Setup(args.Settings)
 
 	if !devices.IsConnected() {
 		logging.Println(logging.Green("No device is connected.") + "\nPlease " + logging.Bold("connect a device to your computer") + " prior to any penetration testing.")
 		return
 	}
 
-	arg.MustParse(&args)
 	pkgname := ""
 	if args.Package == "" {
 		// TODO : Wait for the user input to get the package.
@@ -53,6 +56,7 @@ func main() {
 	if args.Verbose {
 		config.IsVerboseLogRequired = true
 	}
+	logging.Println(pkgname)
 
 	if args.Attacks == false {
 		androidpkg.Savelocal(pkgname)

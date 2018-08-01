@@ -1,4 +1,4 @@
-package command
+package settings
 
 import (
 	"os/exec"
@@ -15,7 +15,7 @@ func AreAllReady() bool {
 		return false
 	}
 
-	areAllReady = isApktoolInstalled()
+	areAllReady, _ = IsApktoolInstalled()
 	if areAllReady != true {
 		return false
 	}
@@ -44,15 +44,16 @@ func isAdbInstalled() bool {
 	return true
 }
 
-func isApktoolInstalled() bool {
+// IsApktoolInstalled : Return if apktool is in the user's PATH so that we could call it directly when executing a command.
+func IsApktoolInstalled() (bool, string) {
 	path, err := exec.LookPath("apktool")
 	if err != nil {
 		logging.PrintlnError("didn't find 'apktool' executable\n")
-		return false
+		return false, ""
 	}
 	logging.PrintlnVerbose("'apktool' executable is in " + path)
 
-	return true
+	return true, path
 }
 
 // TODO : Move the signapk executable path to an external folder.
