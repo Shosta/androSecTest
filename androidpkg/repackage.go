@@ -98,13 +98,15 @@ func searchForIconPaths(dirPath string, iconName string, wg *sync.WaitGroup, dir
 		if file.IsDir() {
 			searchForIconPaths(dirPath+"/"+file.Name(), iconName, wg, dirlistchan)
 		}
-		fmt.Println(file.Name())
-		if strings.Contains(file.Name(), iconName) {
+		// fmt.Println(file.Name())
+		if strings.Contains(file.Name(), iconName) && strings.HasSuffix(strings.ToUpper(file.Name()), ".PNG") {
 			dirlistchan <- dirPath + "/" + file.Name()
 		}
 	}
 }
 
+// Adding a watermark on the app icons based on the package name.
+// It is using  Go routines and channels to do it asynchronously (even if it brings absolutely nothing in terms of performance but it was a great way for me to learn Go routines).
 func addDbgBadgeOnAppIcon(pkgname string) {
 	// TODO : Le tester sur de nombreuses applications.
 	disassembleDirPath := folders.DisassemblePackageDirPath(pkgname)
@@ -126,16 +128,16 @@ func addDbgBadgeOnAppIcon(pkgname string) {
 		close(dirlistchan)
 	}()
 	for icon := range dirlistchan {
-		var dpi string
-		if strings.HasSuffix(filepath.Dir(icon), "xxhdpi") {
+		dpi := ""
+		if strings.HasSuffix(filepath.Dir(icon), "_xxhdpi") {
 			dpi = "xxhdpi"
-		} else if strings.HasSuffix(filepath.Dir(icon), "xhdpi") {
+		} else if strings.HasSuffix(filepath.Dir(icon), "_xhdpi") {
 			dpi = "xhdpi"
-		} else if strings.HasSuffix(filepath.Dir(icon), "hdpi") {
+		} else if strings.HasSuffix(filepath.Dir(icon), "_hdpi") {
 			dpi = "hdpi"
 		}
 
-		images.Watermark("./res/watermark/dbg/unlock_"+dpi+".png", icon)
+		images.Watermark("./res/watermark/dbg/unlock"+dpi+".png", icon)
 	}
 
 	wg.Wait()

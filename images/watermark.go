@@ -8,6 +8,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/shosta/androSecTest/logging"
+
 	extension "github.com/shosta/androSecTest/file"
 )
 
@@ -16,20 +18,20 @@ func decodeSrcImage(imgSrcPath string) image.Image {
 	if err != nil {
 		log.Fatalf("failed to open: %s", err)
 	}
+	defer imgSrc.Close()
+
 	var srcImg image.Image
 	if extension.IsPNG(imgSrcPath) {
 		src, err := png.Decode(imgSrc)
 		if err != nil {
 			log.Fatalf("failed to decode: %s", err)
 		}
-		defer imgSrc.Close()
 		srcImg = src
 	} else if extension.IsJPG(imgSrcPath) {
 		src, err := jpeg.Decode(imgSrc)
 		if err != nil {
 			log.Fatalf("failed to decode: %s", err)
 		}
-		defer imgSrc.Close()
 		srcImg = src
 	}
 
@@ -39,6 +41,7 @@ func decodeSrcImage(imgSrcPath string) image.Image {
 // Watermark :
 func Watermark(watermarkPath string, imgSrcPath string) {
 	// Open and create the Source image
+	logging.PrintlnDebug("Decode image : " + imgSrcPath)
 	src := decodeSrcImage(imgSrcPath)
 
 	// Open and create the watermark image
