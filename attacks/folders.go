@@ -52,7 +52,7 @@ func InsecLoggingDirPath(pkgname string) string {
 
 // UnzipDirPath : Return the folder path where we store the "unzip" command result files.
 func UnzipDirPath(pkgname string) string {
-	return config.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.SourcePackageDir
+	return config.SecurityAssessmentRootDir + "/" + pkgname + variables.AttacksDir + variables.UnzippedPackageDir
 }
 
 // SourcePackageDirPath : Return the folder that contains the package we pulled initially from the device.
