@@ -7,6 +7,7 @@ import (
 	"github.com/shosta/androSecTest/logging"
 )
 
+// Run :
 func Run(command string, args []string) string {
 	cmd := exec.Command(command, args...)
 
@@ -18,6 +19,7 @@ func Run(command string, args []string) string {
 	return string(output)
 }
 
+// RunCmd :
 func RunCmd(cmd string) string {
 	out, err := exec.Command(cmd).Output()
 	if err != nil {
@@ -41,7 +43,7 @@ func RunCmd(cmd string) string {
 // 	log.Printf("Command finished with error: %v", err)
 // }
 
-// Run a command that is defined as an alias in ~/.bashrc or ~/.bash_aliases files.
+// RunAlias : Run a command that is defined as an alias in ~/.bashrc or ~/.bash_aliases files.
 // The aliasCmd is the entire command you want to run.
 func RunAlias(aliasCmd string) string {
 	out, err := exec.Command("/bin/bash", "-c", aliasCmd).Output()
