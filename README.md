@@ -2,7 +2,9 @@ androSecTest
  
  # Android-Static-Security-Audit
 
-Here is a quick Cheat Sheet to test the security of an Android app.
+Here is a quick Cheat Sheet to test the security of an Android app that AndroSecTest is doing.
+
+You can have a quick look at how the application is pentesting an Android app on Youtube : https://youtu.be/zzyTFjnwolo
 
 ## The first part of the Security testing is to :
 1. Get the application from the Store,
