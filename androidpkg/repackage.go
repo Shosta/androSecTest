@@ -51,6 +51,7 @@ func Setup(pkgname string) {
 	reinstall(pkgname)
 }
 
+
 // Unzip the package to the 'unzippedPackage' Folder
 // cmd = "unzip " + attacksDir + variables.SourcePackageDir + "/" + pkgname + ".apk '*' -d " + unzipDir
 func unzip(pkgname string) {
