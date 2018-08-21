@@ -1,9 +1,23 @@
-// Copyright 2014 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+/*
+Copyright 2018 Rémi Lavedrine.
 
-// Package adb : This program can be used as go_android_GOARCH_exec by the Go tool.
-// It executes binaries on an android device using adb.
+Licensed under the Mozilla Public License, version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+https://www.mozilla.org/en-US/MPL/
+
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+// Package adb : It executes binaries on an android device using adb.
 package adb
 
 import (
