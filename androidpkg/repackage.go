@@ -81,7 +81,7 @@ func mkdbg(pkgname string) {
 	logging.Println(logging.Green("Make package debuggable"))
 
 	disassembledDirPath := folders.DisassemblePackageDirPath(pkgname)
-	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "<application ", "<application android:debuggable=\"true\" ")
+	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "<application", "<application android:debuggable=\"true\"")
 
 	logging.Println(logging.Bold("Done"))
 }
@@ -92,7 +92,8 @@ func allowbackup(pkgname string) {
 
 	disassembledDir := folders.DisassemblePackageDirPath(pkgname)
 
-	sed.Replace(disassembledDir+"/AndroidManifest.xml", "android:allowBackup=\"false\" ", " ")
+	sed.Replace(disassembledDir+"/AndroidManifest.xml", "android:allowBackup=\"true\"", "")
+	sed.Replace(disassembledDir+"/AndroidManifest.xml", "android:allowBackup=\"false\"", "")
 	logging.PrintlnDebug("Remove the android:allowBackup=\"false\" if it is in the AndroidManifest.xml file.")
 
 	sed.Replace(disassembledDir+"/AndroidManifest.xml", "<application ", "<application android:allowBackup=\"true\" ")
@@ -181,12 +182,12 @@ func sign(pkgname string) {
 	// command.RunAlias("/bin/bash", "-c", "signapk " + pkgLoc + ".b.apk")
 }
 
-//adb uninstall " + package_name
-//adb install /tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
+//adb uninstall package_name
+//adb install "/tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
 func reinstall(pkgname string) {
 	pkgFilePath := folders.DebugPkgDirPath(pkgname) + "/" + pkgname + ".b.s.apk"
 	if _, err := os.Stat(pkgFilePath); os.IsNotExist(err) {
-		logging.PrintlnError("Debuggable pakcage does not exist. Please review the repackaging errors and retry the process before we can install it on the device.")
+		logging.PrintlnError("Debuggable package does not exist. Please review the repackaging errors and retry the process before we can install it on the device.")
 
 		return
 	}
