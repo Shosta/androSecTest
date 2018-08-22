@@ -13,6 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+// Package androidpkg : Repackage a package after enabling some penetration testing features in it.
 package androidpkg
 
 import (

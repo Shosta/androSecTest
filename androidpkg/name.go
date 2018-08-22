@@ -13,6 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+// Package androidpkg : Scan the packages on the device that contains a string and allows the user to work on it.
 package androidpkg
 
 import (
