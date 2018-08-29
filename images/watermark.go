@@ -76,9 +76,10 @@ func Watermark(watermarkPath string, imgSrcPath string) {
 	}
 	defer watermarkImg.Close()
 
-	// Add watermak on Source image
-	offset := image.Pt(2, 2)
+	// Add watermak on Source image at one third of the final image.
 	b := src.Bounds()
+	offset := image.Pt(b.Dx()/5, b.Dy()/5)
+
 	image3 := image.NewRGBA(b)
 	draw.Draw(image3, b, src, image.ZP, draw.Src)
 	draw.Draw(image3, watermark.Bounds().Add(offset), watermark, image.ZP, draw.Over)

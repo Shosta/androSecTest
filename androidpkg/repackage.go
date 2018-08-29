@@ -51,7 +51,6 @@ func Setup(pkgname string) {
 	reinstall(pkgname)
 }
 
-
 // Unzip the package to the 'unzippedPackage' Folder
 // cmd = "unzip " + attacksDir + variables.SourcePackageDir + "/" + pkgname + ".apk '*' -d " + unzipDir
 func unzip(pkgname string) {
@@ -145,14 +144,18 @@ func addDbgBadgeOnAppIcon(pkgname string) {
 		wg.Wait()
 		close(dirlistchan)
 	}()
+
 	for icon := range dirlistchan {
-		dpi := ""
-		if strings.HasSuffix(filepath.Dir(icon), "_xxhdpi") {
-			dpi = "xxhdpi"
-		} else if strings.HasSuffix(filepath.Dir(icon), "_xhdpi") {
-			dpi = "xhdpi"
-		} else if strings.HasSuffix(filepath.Dir(icon), "_hdpi") {
-			dpi = "hdpi"
+		// TODO : Must find a icon set that has a default icon that is large enough to handle any icon.
+		dpi := "_xxhdpi" // Default to the larger icon.
+		if strings.HasSuffix(filepath.Dir(icon), "xxxhdpi") {
+			dpi = "_xxhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "xxhdpi") {
+			dpi = "_xxhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "xhdpi") {
+			dpi = "_xhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "hdpi") {
+			dpi = "_hdpi"
 		}
 
 		images.Watermark("./res/watermark/dbg/unlock"+dpi+".png", icon)

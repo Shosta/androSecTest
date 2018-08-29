@@ -47,7 +47,7 @@ func path(pkgname string) string {
 	return path
 }
 
-// Pull a package on the connected devices via adb.
+// Pull a package from the connected devices via adb.
 func pull(pkgname string, pkgpath string) {
 	destLocation := attacks.SourcePackageDirPath(pkgname) + "/" + pkgname + ".apk"
 	logging.Println(logging.Green("Pull package from ") + logging.Bold(pkgpath))
