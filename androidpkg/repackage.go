@@ -146,7 +146,7 @@ func addDbgBadgeOnAppIcon(pkgname string) {
 	}()
 
 	for icon := range dirlistchan {
-		// TODO : Must find a icon set that has a default icon that is large enough to handle any icon.
+		// TODO : Must find an icon set that has a default icon that is large enough to handle any icon.
 		dpi := "_xxhdpi" // Default to the larger icon.
 		if strings.HasSuffix(filepath.Dir(icon), "xxxhdpi") {
 			dpi = "_xxhdpi"
