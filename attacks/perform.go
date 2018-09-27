@@ -31,12 +31,26 @@ func Do(pkgname string) {
 		logging.Red("a") +
 		logging.Blue("]ll, [") +
 		logging.Red("i") +
-		logging.Blue("]nsecure logging\n> "))
+		logging.Blue("]nsecure logging, [") +
+		logging.Red("r") +
+		logging.Blue("]everse engineering, [") +
+		logging.Red("m") +
+		logging.Blue("]an in the middle.\n> "))
 	usrInput := terminal.Waitfor()
 
-	if usrInput == "a" {
+	switch usrInput {
+	case "a":
 		DoInsecureLog(pkgname)
 		DoInsecureStorage(pkgname)
 		DoReverse(pkgname)
+
+	case "i":
+		DoInsecureStorage(pkgname)
+
+	case "r":
+		DoReverse(pkgname)
+
+	case "m":
+		logging.PrintlnDebug("Man in the Middle is not ready yet (Work in Progress).")
 	}
 }
