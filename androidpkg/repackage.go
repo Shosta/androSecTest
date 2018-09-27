@@ -1,3 +1,20 @@
+/*
+Copyright 2018 Rémi Lavedrine.
+
+Licensed under the Mozilla Public License, version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+https://www.mozilla.org/en-US/MPL/
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+// Package androidpkg : Repackage a package after enabling some penetration testing features in it.
 package androidpkg
 
 import (
@@ -65,7 +82,7 @@ func mkdbg(pkgname string) {
 	logging.Println(logging.Green("Make package debuggable"))
 
 	disassembledDirPath := folders.DisassemblePackageDirPath(pkgname)
-	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "s/<application ", "<application android:debuggable=\"true\" ")
+	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "<application", "<application android:debuggable=\"true\"")
 
 	logging.Println(logging.Bold("Done"))
 }
@@ -76,7 +93,8 @@ func allowbackup(pkgname string) {
 
 	disassembledDir := folders.DisassemblePackageDirPath(pkgname)
 
-	sed.Replace(disassembledDir+"/AndroidManifest.xml", "android:allowBackup=\"false\" ", " ")
+	sed.Replace(disassembledDir+"/AndroidManifest.xml", "android:allowBackup=\"true\"", "")
+	sed.Replace(disassembledDir+"/AndroidManifest.xml", "android:allowBackup=\"false\"", "")
 	logging.PrintlnDebug("Remove the android:allowBackup=\"false\" if it is in the AndroidManifest.xml file.")
 
 	sed.Replace(disassembledDir+"/AndroidManifest.xml", "<application ", "<application android:allowBackup=\"true\" ")
@@ -126,14 +144,18 @@ func addDbgBadgeOnAppIcon(pkgname string) {
 		wg.Wait()
 		close(dirlistchan)
 	}()
+
 	for icon := range dirlistchan {
-		dpi := ""
-		if strings.HasSuffix(filepath.Dir(icon), "_xxhdpi") {
-			dpi = "xxhdpi"
-		} else if strings.HasSuffix(filepath.Dir(icon), "_xhdpi") {
-			dpi = "xhdpi"
-		} else if strings.HasSuffix(filepath.Dir(icon), "_hdpi") {
-			dpi = "hdpi"
+		// TODO : Must find an icon set that has a default icon that is large enough to handle any icon.
+		dpi := "_xxhdpi" // Default to the larger icon.
+		if strings.HasSuffix(filepath.Dir(icon), "xxxhdpi") {
+			dpi = "_xxhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "xxhdpi") {
+			dpi = "_xxhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "xhdpi") {
+			dpi = "_xhdpi"
+		} else if strings.HasSuffix(filepath.Dir(icon), "hdpi") {
+			dpi = "_hdpi"
 		}
 
 		images.Watermark("./res/watermark/dbg/unlock"+dpi+".png", icon)
@@ -165,12 +187,12 @@ func sign(pkgname string) {
 	// command.RunAlias("/bin/bash", "-c", "signapk " + pkgLoc + ".b.apk")
 }
 
-//adb uninstall " + package_name
-//adb install /tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
+//adb uninstall package_name
+//adb install "/tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
 func reinstall(pkgname string) {
 	pkgFilePath := folders.DebugPkgDirPath(pkgname) + "/" + pkgname + ".b.s.apk"
 	if _, err := os.Stat(pkgFilePath); os.IsNotExist(err) {
-		logging.PrintlnError("Debuggable pakcage does not exist. Please review the repackaging errors and retry the process before we can install it on the device.")
+		logging.PrintlnError("Debuggable package does not exist. Please review the repackaging errors and retry the process before we can install it on the device.")
 
 		return
 	}
