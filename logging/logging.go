@@ -47,7 +47,7 @@ func PrintlnError(err interface{}) {
 	}
 }
 
-// PrintlnVerbose : Print the log to the terminal if the configuration's "IsVerboseLogRequired" value is set to "true". 
+// PrintlnVerbose : Print the log to the terminal if the configuration's "IsVerboseLogRequired" value is set to "true".
 func PrintlnVerbose(log string) {
 	if config.IsVerboseLogRequired {
 		fmt.Println(log)
