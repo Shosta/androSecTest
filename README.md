@@ -1,6 +1,11 @@
+
+<a href="https://github.com/Shosta/androSecTest/stargazers"><img alt="Ask me anything" src="https://img.shields.io/static/v1.svg?label=Ask%20me&message=anything&color=green"></a>
+<a href="https://github.com/Shosta/androSecTest/stargazers"><img alt="Maintained" src="https://img.shields.io/static/v1.svg?label=Maintained?&message=Yes&color=Blue"></a>
 <a href="https://github.com/Shosta/androSecTest/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Shosta/androSecTest.svg?style=social"></a>
 <a href="https://github.com/Shosta/androSecTest/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/Shosta/androSecTest.svg?style=social"></a>
 <a href="https://github.com/Shosta/androSecTest/blob/master/LICENSE.md"><img alt="GitHub license" src="https://img.shields.io/github/license/Shosta/androSecTest.svg?color=green&style=flat-square"></a>
+<a href="https://github.com/Shosta/androSecTest/stargazers"><img alt="Pentest" src="https://img.shields.io/static/v1.svg?label=Pentest&message=Your%20App&color=green&logo=Android"></a>
+
  
  # Android-Static-Security-Audit
 
