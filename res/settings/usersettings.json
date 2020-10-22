@@ -3,11 +3,11 @@
     "version": "0.1"
   },
   "tools": {
-    "jadx": "/home/shosta/ShostaSyncBox/Developpement/HackingTools/DecompilingAndroidApp/jadx/bin/jadx",
-    "apktool": "",
-    "signapk": "/home/shosta/ShostaSyncBox/Developpement/HackingTools/SignApkUtils/sign.jar"
+    "jadx": "/home/Developpement/HackingTools/DecompilingAndroidAppUtils/bin/jadx/bin",
+    "apktool": "/usr/local/bin/apktool",
+    "signapk": "/home/Developpement/HackingTools/SignApkUtils/sign.jar"
   },
   "hackingtools": {
-    "humpty-dumpty": "/home/shosta/ShostaSyncBox/Developpement/HackingTools/humpty-dumpty-android-master/humpty.sh"
+    "humpty-dumpty": "/home/Developpement/HackingTools/SignApkUtils/humpty.sh"
   }
 }
