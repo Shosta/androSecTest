@@ -22,7 +22,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
 # Download the Required Hacking Tools
 FROM ubuntu:20.04 as ubuntu-downloader
 
-
 ENV GIT_SSL_NO_VERIFY=1
 
 WORKDIR /home
@@ -53,7 +52,7 @@ FROM ubuntu:20.04
 
 # Labels and Credits
 LABEL \
-    name="AndroSecTestRémi" \
+    name="AndroSecTest on Ubuntu" \
     author="Rémi Lavedrine <remi@github.com>" \
     maintainer="Rémi Lavedrine <remi@github.com>" \
     description="Android Security Test (AndroSecTest) is an automated, all-in-one mobile application (Android) security assessment framework capable of performing static."
