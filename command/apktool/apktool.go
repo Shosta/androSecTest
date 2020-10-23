@@ -18,30 +18,24 @@ limitations under the License.
 package apktool
 
 import (
-	"fmt"
-	"os/exec"
-
 	"github.com/Shosta/androSecTest/attacks"
+	"github.com/Shosta/androSecTest/command"
 	"github.com/Shosta/androSecTest/settings"
 
 	"github.com/Shosta/androSecTest/logging"
 )
 
-func runApktool(args ...string) string {
-	cmd := exec.Command("java -jar "+settings.ApkTool(), args...)
-
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		logging.PrintlnError(fmt.Sprint(err) + ": " + string(output))
-		return ""
+func runApktool(args ...string) {
+	cmdArgs := []string{
+		"-jar",
+		settings.ApkTool(),
 	}
-
-	return string(output)
+	command.Run("java", append(cmdArgs, args...))
 }
 
 // Disassemble :
 // TODO Il faut prendre en compte les cas d'erreurs d'apktool.
-func Disassemble(pkgname string) string {
+func Disassemble(pkgname string) {
 
 	cmdArgs := []string{
 		"d",
@@ -51,18 +45,15 @@ func Disassemble(pkgname string) string {
 		attacks.DisassemblePackageDirPath(pkgname),
 	}
 
-	var output = runApktool(cmdArgs...)
-	logging.PrintlnVerbose(output)
+	runApktool(cmdArgs...)
 
 	logging.Println(logging.Green("Package disassembled with success") + " to " + logging.Bold(attacks.DisassemblePackageDirPath(pkgname)))
-
-	return output
 }
 
 // Build :
 // TODO Il faut prendre en compte les cas d'erreurs d'apktool.
 //cmd = "apktool b /tmp/Attacks/DecodedPackage -o /tmp/Attacks/DebuggablePackage/" + package_name + ".b.apk"
-func Build(pkgname string) string {
+func Build(pkgname string) {
 
 	cmdArgs := []string{
 		"b",
@@ -71,10 +62,7 @@ func Build(pkgname string) string {
 		attacks.DebugPkgDirPath(pkgname) + "/" + pkgname + ".b.apk",
 	}
 
-	var output = runApktool(cmdArgs...)
-	logging.PrintlnVerbose(output)
+	runApktool(cmdArgs...)
 
 	logging.Println(logging.Green("Package built with success") + " to " + logging.Bold(attacks.DebugPkgDirPath(pkgname)))
-
-	return output
 }

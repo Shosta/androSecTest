@@ -71,6 +71,7 @@ EXPOSE 5555
 RUN apt update -y && apt install -y --no-install-recommends \
     openjdk-11-jdk \
     usbutils \
+    unzip \
     android-tools-adb \
     bash-completion
 
@@ -79,6 +80,7 @@ COPY --from=ubuntu-downloader $HACKTOOLS_DIR/SignApkUtils/ $HACKTOOLS_DIR/SignAp
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
+RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
 
 # Copy Humpty-dumpty
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master

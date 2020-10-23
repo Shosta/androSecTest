@@ -49,7 +49,6 @@ func main() {
 
 	pkgname := ""
 	if args.Package == "" {
-		// TODO : Wait for the user input to get the package.
 		logging.PrintDebug("No package provided.\nPlease provide the name of the package you want to test.\n" + logging.Blue(">  "))
 		pkgname = terminal.Waitfor()
 	} else {
