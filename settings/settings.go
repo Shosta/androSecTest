@@ -173,3 +173,8 @@ func Jadx() string {
 func SignApk() string {
 	return signapkpath
 }
+
+// ApkTool :
+func ApkTool() string {
+	return apktoolpath
+}
