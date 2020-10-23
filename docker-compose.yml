@@ -1,14 +1,8 @@
 version: '3.8'
 services:
   app:
-    build:
-      context: .
-      dockerfile: ./DockerFiles/Ubuntu/Dockerfile
+    build: ../DockerFiles/Ubuntu
   app-alpine:
-    build:
-      context: .
-      dockerfile: ./DockerFiles/Alpine/Dockerfile
+    build: ../DockerFiles/Alpine
   dev-env:
-    build:
-      context: .
-      dockerfile: ./DockerFiles/Development/Dockerfile
+    build: ../DockerFiles/Development
