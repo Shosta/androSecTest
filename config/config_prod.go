@@ -4,7 +4,7 @@ package config
 
 // Production ready configuration const based on the build tags.
 const (
-	SecurityAssessmentRootDir = "/home/shosta/android/security"
+	SecurityAssessmentRootDir = "/home/androSecTest-Results"
 	IsDebug                   = false
 )
 

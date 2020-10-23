@@ -45,7 +45,7 @@ type Application struct {
 func icon(pkgname string) string {
 	// Open our xmlFile
 	attacks.DisassemblePackageDirPath(pkgname)
-	xmlFile, err := os.Open("/home/shosta/android/security/com.orange.orangeetmoi/attacks/disassemblePackage/AndroidManifest.xml")
+	xmlFile, err := os.Open("/home/androSecTest-Results/com.orange.orangeetmoi/attacks/disassemblePackage/AndroidManifest.xml")
 	// if we os.Open returns an error then handle it
 	if err != nil {
 		logging.PrintlnError(err)

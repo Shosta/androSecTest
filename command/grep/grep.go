@@ -28,7 +28,7 @@ func Motif(motif string, src string, dest string) {
 	logging.PrintlnDebug("Src : " + src)
 	logging.PrintlnDebug("Dest : " + dest)
 
-	cmd := "grep " + motif + " -R " + src + " > " + dest + "/grep-" + motif + ".txt"
+	cmd := "grep " + motif + " -R " + src + " >> " + dest + "/grep-" + motif + ".txt"
 	logging.PrintlnDebug("Run command : " + cmd)
 	command.RunAlias(cmd)
 }
