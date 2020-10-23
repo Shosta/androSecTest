@@ -21,9 +21,9 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/shosta/androSecTest/command"
-	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/terminal"
+	"github.com/Shosta/androSecTest/command"
+	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/terminal"
 )
 
 // Get all the occurence of a string through a grep commanc and store it in a file.

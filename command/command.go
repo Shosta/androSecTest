@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 // Run :

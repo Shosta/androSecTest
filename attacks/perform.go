@@ -21,8 +21,8 @@ limitations under the License.
 package attacks
 
 import (
-	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/terminal"
+	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/terminal"
 )
 
 // Do :

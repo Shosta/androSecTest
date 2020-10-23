@@ -27,8 +27,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/shosta/androSecTest/attacks"
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/attacks"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 // Manifest :

@@ -20,10 +20,10 @@ package attacks
 import (
 	"os"
 
-	"github.com/shosta/androSecTest/config"
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/config"
+	"github.com/Shosta/androSecTest/logging"
 
-	"github.com/shosta/androSecTest/variables"
+	"github.com/Shosta/androSecTest/variables"
 )
 
 // The folder to start working on a package is : ~/android/security/'packagename'/attacks/...

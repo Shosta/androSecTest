@@ -25,18 +25,18 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/shosta/androSecTest/settings"
+	"github.com/Shosta/androSecTest/settings"
 
-	"github.com/shosta/androSecTest/images"
-	"github.com/shosta/androSecTest/manifest"
+	"github.com/Shosta/androSecTest/images"
+	"github.com/Shosta/androSecTest/manifest"
 
-	"github.com/shosta/androSecTest/command/sed"
+	"github.com/Shosta/androSecTest/command/sed"
 
-	folders "github.com/shosta/androSecTest/attacks"
-	"github.com/shosta/androSecTest/command"
-	"github.com/shosta/androSecTest/command/adb"
-	"github.com/shosta/androSecTest/command/apktool"
-	"github.com/shosta/androSecTest/logging"
+	folders "github.com/Shosta/androSecTest/attacks"
+	"github.com/Shosta/androSecTest/command"
+	"github.com/Shosta/androSecTest/command/adb"
+	"github.com/Shosta/androSecTest/command/apktool"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 // Setup :

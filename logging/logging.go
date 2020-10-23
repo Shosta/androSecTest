@@ -23,7 +23,7 @@ package logging
 import (
 	"fmt"
 
-	"github.com/shosta/androSecTest/config"
+	"github.com/Shosta/androSecTest/config"
 )
 
 // PrintlnDebug :

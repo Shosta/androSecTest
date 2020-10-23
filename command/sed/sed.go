@@ -1,7 +1,7 @@
 package sed
 
 import (
-	"github.com/shosta/androSecTest/command"
+	"github.com/Shosta/androSecTest/command"
 )
 
 // Replace : Replace a motif in a file through a sed bash command.

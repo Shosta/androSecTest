@@ -21,22 +21,22 @@ import (
 	"fmt"
 	"os/exec"
 
+	"github.com/Shosta/androSecTest/attacks"
 	"github.com/Shosta/androSecTest/settings"
-	"github.com/shosta/androSecTest/attacks"
 
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 func runApktool(args ...string) string {
-	cmd := exec.Command(settings.ApkTool(), args...)
+	cmd := exec.Command("java -jar "+settings.ApkTool(), args...)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err) + ": " + string(output))
 		return ""
 	}
-	
-	return string("java -jar" + output)
+
+	return string(output)
 }
 
 // Disassemble :

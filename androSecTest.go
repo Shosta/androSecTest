@@ -21,14 +21,14 @@ limitations under the License.
 package main
 
 import (
+	"github.com/Shosta/androSecTest/settings"
 	arg "github.com/alexflint/go-arg"
-	"github.com/shosta/androSecTest/androidpkg"
-	"github.com/shosta/androSecTest/attacks"
-	"github.com/shosta/androSecTest/config"
-	"github.com/shosta/androSecTest/devices"
-	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/settings"
-	"github.com/shosta/androSecTest/terminal"
+	"github.com/Shosta/androSecTest/androidpkg"
+	"github.com/Shosta/androSecTest/attacks"
+	"github.com/Shosta/androSecTest/config"
+	"github.com/Shosta/androSecTest/devices"
+	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/terminal"
 )
 
 func main() {

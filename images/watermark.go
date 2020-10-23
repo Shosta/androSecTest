@@ -28,9 +28,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/logging"
 
-	extension "github.com/shosta/androSecTest/file"
+	extension "github.com/Shosta/androSecTest/file"
 )
 
 func decodeSrcImage(imgSrcPath string) image.Image {

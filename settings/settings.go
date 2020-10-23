@@ -26,8 +26,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/terminal"
+	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/terminal"
 )
 
 var version string

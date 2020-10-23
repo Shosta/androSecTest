@@ -21,11 +21,11 @@ limitations under the License.
 package attacks
 
 import (
-	"github.com/shosta/androSecTest/command"
-	grep "github.com/shosta/androSecTest/command/grep"
-	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/settings"
-	"github.com/shosta/androSecTest/variables"
+	"github.com/Shosta/androSecTest/command"
+	grep "github.com/Shosta/androSecTest/command/grep"
+	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/settings"
+	"github.com/Shosta/androSecTest/variables"
 )
 
 // Voici le commande à utiliser :

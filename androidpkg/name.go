@@ -23,8 +23,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/shosta/androSecTest/command/adb"
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/command/adb"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 // Display a list of packages and let the user choose one of them.

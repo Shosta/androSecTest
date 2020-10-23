@@ -20,8 +20,8 @@ package devices
 import (
 	"strings"
 
-	"github.com/shosta/androSecTest/command/adb"
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/command/adb"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 func connectedDevices(adbOutput string) []string {

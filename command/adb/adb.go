@@ -25,7 +25,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 func runAdb(args ...string) string {

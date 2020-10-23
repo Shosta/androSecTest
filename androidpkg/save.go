@@ -18,9 +18,9 @@ limitations under the License.
 package androidpkg
 
 import (
-	"github.com/shosta/androSecTest/attacks"
-	"github.com/shosta/androSecTest/command/adb"
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/attacks"
+	"github.com/Shosta/androSecTest/command/adb"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 // Savelocal : Allow the user to select the package he wants to save locally on its computer through a simple part of the package name.

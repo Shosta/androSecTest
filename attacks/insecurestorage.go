@@ -18,10 +18,10 @@ limitations under the License.
 package attacks
 
 import (
-	"github.com/shosta/androSecTest/command"
-	"github.com/shosta/androSecTest/folder"
-	"github.com/shosta/androSecTest/logging"
-	"github.com/shosta/androSecTest/terminal"
+	"github.com/Shosta/androSecTest/command"
+	"github.com/Shosta/androSecTest/folder"
+	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/terminal"
 )
 
 func copyDump(pkgname string) {

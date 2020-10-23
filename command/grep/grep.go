@@ -18,8 +18,8 @@ limitations under the License.
 package grep
 
 import (
-	"github.com/shosta/androSecTest/command"
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/command"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 // Motif : Check if the files that are in the dest folder have some urls.

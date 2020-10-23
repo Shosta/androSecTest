@@ -24,7 +24,7 @@ import (
 	"bufio"
 	"os"
 
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 // Waitfor a user input on the CLI.

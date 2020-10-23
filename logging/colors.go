@@ -20,7 +20,7 @@ limitations under the License.
 // Package logging : Provides printing on the terminal using several colors.
 package logging
 
-import "github.com/shosta/androSecTest/variables"
+import "github.com/Shosta/androSecTest/variables"
 
 // Orange  : 
 func Orange(str string) string {
