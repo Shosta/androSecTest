@@ -21,23 +21,23 @@ limitations under the License.
 package main
 
 import (
-	"github.com/Shosta/androSecTest/settings"
-	arg "github.com/alexflint/go-arg"
 	"github.com/Shosta/androSecTest/androidpkg"
 	"github.com/Shosta/androSecTest/attacks"
 	"github.com/Shosta/androSecTest/config"
 	"github.com/Shosta/androSecTest/devices"
 	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/settings"
 	"github.com/Shosta/androSecTest/terminal"
+	arg "github.com/alexflint/go-arg"
 )
 
 func main() {
 	var args struct {
 		Settings    bool   `arg:"-s" help:"set up the user settings"`
-		Package     string `arg:"-p" help:"package name"`
+		Package     string `arg:"-p" help:"package name (enter the app name you want to test)"`
 		Dest        string `arg:"-d" help:"destination folder absolute path"`
-		Attacksonly bool   `arg:"-a" help:"perform only attacks"`
-		Verbose     bool   `arg:"-v" help:"verbosity level"`
+		Attacksonly bool   `arg:"-a" help:"perform only attacks (do not repackage the app on the device)"`
+		Verbose     bool   `arg:"-v" help:"verbosity level (verbose or not)"`
 	}
 	arg.MustParse(&args)
 	settings.Setup(args.Settings)

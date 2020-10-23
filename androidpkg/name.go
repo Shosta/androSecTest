@@ -38,7 +38,7 @@ func choose(pkgs []string) string {
 	}
 
 	// Wait for input from user in order to choose which apk to retrive through adb
-	logging.Println(logging.Blue("Which package do you want to investigate?"))
+	logging.Println(logging.Blue("Which package do you want to investigate ? (enter a number"))
 
 	var input string
 	fmt.Scanln(&input)

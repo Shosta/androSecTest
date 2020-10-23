@@ -33,7 +33,7 @@ RUN apt update -y && apt install -y  --no-install-recommends \
 
 # Install SignApk
 RUN mkdir -p SignApkUtils && \
-    wget --no-check-certificate --quiet -O ./SignApkUtils/sign.jar https://github.com/techexpertize/SignApk/blob/master/signapk.jar
+    wget --no-check-certificate --quiet -O ./SignApkUtils/signapk.jar https://github.com/techexpertize/SignApk/blob/master/signapk.jar
 
 # Install jadx
 RUN wget --no-check-certificate --quiet https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip && \
@@ -64,19 +64,13 @@ ENV SRC_DIR=/root/go/src/github.com/Shosta/androSecTest
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 WORKDIR $SRC_DIR
 
-# Expose default ADB port
-EXPOSE 5555
-
 # Install adb tools, unzip, wget, signapk and apktool
 RUN apt update -y && apt install -y --no-install-recommends \
-    openjdk-11-jdk \
+    openjdk-8-jdk \
     usbutils \
     unzip \
     android-tools-adb \
     bash-completion
-
-# Copy SignApk to Container
-COPY --from=ubuntu-downloader $HACKTOOLS_DIR/SignApkUtils/ $HACKTOOLS_DIR/SignApkUtils/
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
@@ -91,6 +85,10 @@ COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/androSecTest $SRC_
 # Copy the User Settings
 RUN mkdir  $SRC_DIR/.res
 COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/res/ $SRC_DIR/.res/
+
+# Copy SignApk to Proper Location in Container
+RUN mv $SRC_DIR/.res/SignApk $HACKTOOLS_DIR/SignApkUtils/ && \
+    chmod +x $HACKTOOLS_DIR/SignApkUtils/signapk.jar
 
 # Start the server by default
 # CMD ["adb", "-a", "-P", "5037", "server", "nodaemon"]
