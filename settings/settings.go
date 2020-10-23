@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package settings : Provides features to store the user settings in a file. 
+// Package settings : Provides features to store the user settings in a file.
 // It stores or updates the path to the executables that are required to pursue the penetration testing.
 package settings
 
@@ -106,13 +106,13 @@ func saveUsrSettings(us UserSettings) error {
 		return err
 	}
 
-	return ioutil.WriteFile("./res/settings/usersettings.json", bytes, 0644)
+	return ioutil.WriteFile("./.res/settings/usersettings.json", bytes, 0644)
 }
 
 // It reads the Settings file and update the variables accordingly.
 // When using these tools, we can rely on the user defined ones instead of something hard coded.
 func loadUsrSettings() (UserSettings, error) {
-	bytes, err := ioutil.ReadFile("./res/settings/usersettings.json")
+	bytes, err := ioutil.ReadFile("./.res/settings/usersettings.json")
 	if err != nil {
 		return UserSettings{}, err
 	}

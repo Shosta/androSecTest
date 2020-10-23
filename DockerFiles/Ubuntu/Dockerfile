@@ -2,7 +2,7 @@
 FROM golang:latest as go-builder
 
 # Environmentn variables
-ENV SRC_DIR=/go/src/github.com/shosta/androSecTest
+ENV SRC_DIR=/root/go/src/github.com/shosta/androSecTest
 ENV GIT_SSL_NO_VERIFY=1
 
 # Set the Current Working Directory inside the container
@@ -57,7 +57,9 @@ LABEL \
     maintainer="Rémi Lavedrine <remi@github.com>" \
     description="Android Security Test (AndroSecTest) is an automated, all-in-one mobile application (Android) security assessment framework capable of performing static."
 
-WORKDIR /go/src/github.com/shosta/androSecTest/
+ENV SRC_DIR=/root/go/src/github.com/shosta/androSecTest
+ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
+WORKDIR $SRC_DIR
 
 # Install adb tools, unzip, wget, signapk and apktool
 RUN apt update -y && apt install -y  --no-install-recommends \
@@ -66,16 +68,19 @@ RUN apt update -y && apt install -y  --no-install-recommends \
     bash-completion
 
 # Copy SignApk to Container
-COPY --from=ubuntu-downloader /home/Developpement/HackingTools/SignApkUtils/ /home/Developpement/HackingTools/SignApkUtils/
+COPY --from=ubuntu-downloader $HACKTOOLS_DIR/SignApkUtils/ $HACKTOOLS_DIR/SignApkUtils/
 
 # Copy jadx
-COPY --from=ubuntu-downloader /home/Developpement/HackingTools/DecompilingAndroidAppUtils /home/Developpement/HackingTools/DecompilingAndroidAppUtils
+COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
 
 # Copy Humpty-dumpty
-COPY --from=ubuntu-downloader /home/Developpement/HackingTools/humpty-dumpty-android-master /home/Developpement/HackingTools/humpty-dumpty-android-master
+COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
 
 # Copy the built executable from the go-builder container and add it to this container.
-COPY --from=go-builder /go/src/github.com/shosta/androSecTest/androSecTest /go/src/github.com/shosta/androSecTest
+COPY --from=go-builder $SRC_DIR/androSecTest /go/src/github.com/shosta/androSecTest
+
+# Copy the User Settings
+COPY ./res/ $SRC_DIR/.res/
 
 # You can pass args to the docker image if you launch the app like this : `docker run --rm androsectest-ubuntu:latest --appname yourApp`
 # ENTRYPOINT [ "/go/src/github.com/shosta/androSecTest/androSecTest" ]

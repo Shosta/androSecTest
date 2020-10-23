@@ -158,7 +158,7 @@ func addDbgBadgeOnAppIcon(pkgname string) {
 			dpi = "_hdpi"
 		}
 
-		images.Watermark("./res/watermark/dbg/unlock"+dpi+".png", icon)
+		images.Watermark("./.res/watermark/dbg/unlock"+dpi+".png", icon)
 	}
 
 	wg.Wait()
