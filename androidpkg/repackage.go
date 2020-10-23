@@ -181,7 +181,10 @@ func sign(pkgname string) {
 	cmdArgs := []string{
 		"-jar",
 		settings.SignApk(),
+		"/home/Developpement/HackingTools/SignApkUtils/testkey.x509.pem",
+		"/home/Developpement/HackingTools/SignApkUtils/testkey.pk8",
 		pkgFilePath + ".b.apk",
+		pkgFilePath + ".b.s.apk",
 	}
 	command.Run("java", cmdArgs)
 	// command.RunAlias("/bin/bash", "-c", "signapk " + pkgLoc + ".b.apk")
