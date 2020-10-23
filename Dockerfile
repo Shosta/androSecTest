@@ -89,6 +89,3 @@ COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/res/ $SRC_DIR/.res
 # Copy SignApk to Proper Location in Container
 RUN mv $SRC_DIR/.res/SignApk $HACKTOOLS_DIR/SignApkUtils/ && \
     chmod +x $HACKTOOLS_DIR/SignApkUtils/signapk.jar
-
-# Start the server by default
-# CMD ["adb", "-a", "-P", "5037", "server", "nodaemon"]

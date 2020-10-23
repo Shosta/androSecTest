@@ -2,7 +2,7 @@
 FROM golang:latest as go-builder
 
 # Environmentn variables
-ENV SRC_DIR=/go/src/github.com/shosta/androSecTest
+ENV SRC_DIR=/go/src/github.com/Shosta/androSecTest
 ENV GIT_SSL_NO_VERIFY=1
 
 # Set the Current Working Directory inside the container
@@ -22,29 +22,31 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
 # Download the Required Hacking Tools
 FROM ubuntu:20.04 as ubuntu-downloader
 
+ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 
-ENV GIT_SSL_NO_VERIFY=1
-
-WORKDIR /home
+WORKDIR $HACKTOOLS_DIR
 
 # Install adb tools, unzip, wget, signapk and apktool
 RUN apt update -y && apt install -y  --no-install-recommends \
     wget \
     unzip
 
-
 # Install SignApk
-RUN mkdir -p /home/Developpement/HackingTools/SignApkUtils && \
-    wget --no-check-certificate --quiet -O /home/Developpement/HackingTools/SignApkUtils/sign.jar https://github.com/techexpertize/SignApk/blob/master/signapk.jar
+RUN mkdir -p SignApkUtils && \
+    wget --no-check-certificate --quiet -O ./SignApkUtils/signapk.jar https://github.com/techexpertize/SignApk/blob/master/signapk.jar
 
 # Install jadx
 RUN wget --no-check-certificate --quiet https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip && \
-    mkdir -p /home/Developpement/HackingTools/DecompilingAndroidAppUtils/bin/jadx
-RUN unzip jadx-1.1.0.zip -d /home/Developpement/HackingTools/DecompilingAndroidAppUtils/bin/jadx && rm jadx-1.1.0.zip
+    mkdir -p ./DecompilingAndroidAppUtils/jadx && \
+    unzip jadx-1.1.0.zip -d ./DecompilingAndroidAppUtils/jadx && rm jadx-1.1.0.zip
+
+# Download apktool-2 & Rename downloaded jar to apktool.jar
+RUN mkdir -p ./DecompilingAndroidAppUtils/apktool && \
+    wget --no-check-certificate --quiet -O ./DecompilingAndroidAppUtils/apktool/apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.4.1.jar
 
 # Install Humpty-dumpty
-RUN mkdir -p /home/Developpement/HackingTools/humpty-dumpty-android-master && \
-    wget --no-check-certificate --quiet -O /home/Developpement/HackingTools/humpty-dumpty-android-master/humpty.sh https://github.com/Pixplicity/humpty-dumpty-android/blob/master/humpty.sh
+RUN mkdir -p ./humpty-dumpty-android-master && \
+    wget --no-check-certificate --quiet -O ./humpty-dumpty-android-master/humpty.sh https://github.com/Pixplicity/humpty-dumpty-android/blob/master/humpty.sh
 
 
 
@@ -57,33 +59,29 @@ LABEL \
     maintainer="Rémi Lavedrine <remi@github.com>" \
     description="Android Security Test (AndroSecTest) is an automated, all-in-one mobile application (Android) security assessment framework capable of performing static."
 
-WORKDIR /go/src/github.com/shosta/androSecTest/
+ENV SRC_DIR=/root/go/src/github.com/Shosta/androSecTest
+ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
+WORKDIR $SRC_DIR
 
-RUN apk add openjdk8
+RUN apk add openjdk8 \
+    usbutils \
+    unzip
 RUN apk --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ add android-tools
 
-# Install apktool
-# Download Linux wrapper script
-RUN wget --quiet https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
+# Copy jadx and apktool
+COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
+RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
 
-# Download apktool-2 & Rename downloaded jar to apktool.jar
-RUN wget --quiet -O apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.4.1.jar
-
-# Move both files (apktool.jar & apktool) to /usr/local/bin (root needed) && Make sure both files are executable
-RUN mv apktool* /usr/local/bin && chmod +x /usr/local/bin/apktool*
-
-# Copy SignApk to Container
-COPY --from=ubuntu-downloader /home/Developpement/HackingTools/SignApkUtils/ /home/Developpement/HackingTools/SignApkUtils/
-
-# Copy jadx to Container
-COPY --from=ubuntu-downloader /home/Developpement/HackingTools/DecompilingAndroidAppUtils /home/Developpement/HackingTools/DecompilingAndroidAppUtils
-
-# Copy Humpty-dumpty to Container
-COPY --from=ubuntu-downloader /home/Developpement/HackingTools/humpty-dumpty-android-master /home/Developpement/HackingTools/humpty-dumpty-android-master
+# Copy Humpty-dumpty
+COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
 
 # Copy the built executable from the go-builder container and add it to this container.
-COPY --from=go-builder /go/src/github.com/shosta/androSecTest/androSecTest /go/src/github.com/shosta/androSecTest
+COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/androSecTest $SRC_DIR
 
-# You can pass args to the docker image if you launch the app like this : `docker run --rm androsectest-ubuntu:latest --appname yourApp`
-# ENTRYPOINT [ "/go/src/github.com/shosta/androSecTest/androSecTest" ]
-# CMD ["--help"]
+# Copy the User Settings
+RUN mkdir  $SRC_DIR/.res
+COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/res/ $SRC_DIR/.res/
+
+# Copy SignApk to Proper Location in Container
+RUN mv $SRC_DIR/.res/SignApk $HACKTOOLS_DIR/SignApkUtils/ && \
+    chmod +x $HACKTOOLS_DIR/SignApkUtils/signapk.jar
