@@ -1,24 +1,3 @@
-# Build the AndroSecTest App on the golang latest image.
-FROM golang:latest as go-builder
-
-# Environmentn variables
-ENV SRC_DIR=/go/src/github.com/Shosta/androSecTest
-ENV GIT_SSL_NO_VERIFY=1
-
-# Set the Current Working Directory inside the container
-WORKDIR $SRC_DIR
-
-# Copy the source from the current directory to the Working Directory inside the container
-COPY . $SRC_DIR
-
-# Dowload the Go Dependancies
-RUN go get $SRC_DIR/...
-
-# Build the Go app for a Linux target
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
-
-
-
 # Download the Required Hacking Tools
 FROM ubuntu:20.04 as ubuntu-downloader
 
@@ -47,6 +26,27 @@ RUN mkdir -p ./DecompilingAndroidAppUtils/apktool && \
 # Install Humpty-dumpty
 RUN mkdir -p ./humpty-dumpty-android-master && \
     wget --no-check-certificate --quiet -O ./humpty-dumpty-android-master/humpty.sh https://github.com/Pixplicity/humpty-dumpty-android/blob/master/humpty.sh
+
+
+
+# Build the AndroSecTest App on the golang latest image.
+FROM golang:latest as go-builder
+
+# Environmentn variables
+ENV SRC_DIR=/go/src/github.com/Shosta/androSecTest
+ENV GIT_SSL_NO_VERIFY=1
+
+# Set the Current Working Directory inside the container
+WORKDIR $SRC_DIR
+
+# Copy the source from the current directory to the Working Directory inside the container
+COPY . $SRC_DIR
+
+# Dowload the Go Dependancies
+RUN go get $SRC_DIR/...
+
+# Build the Go app for a Linux target
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
 
 
 
