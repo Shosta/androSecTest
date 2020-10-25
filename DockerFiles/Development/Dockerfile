@@ -41,7 +41,7 @@ LABEL \
     maintainer="Rémi Lavedrine <remi@github.com>" \
     description="Android Security Test (AndroSecTest) is an automated, all-in-one mobile application (Android) security assessment framework capable of performing static."
 
-ENV SRC_DIR=/root/go/src/github.com/Shosta/androSecTest
+ENV SRC_DIR=/workspaces/androSecTest
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 WORKDIR $SRC_DIR
 
@@ -50,10 +50,10 @@ RUN apt update -y && apt install -y --no-install-recommends \
     openjdk-8-jdk \
     usbutils \
     unzip \
+    wget \
     android-tools-adb \
     bash-completion \
     golang-go
-
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
@@ -62,13 +62,13 @@ RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
 # Copy Humpty-dumpty
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
 
-# Copy the built executable from the go-builder container and add it to this container.
-COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/androSecTest $SRC_DIR
+RUN apt install -y --no-install-recommends git zsh && chsh -s /usr/bin/zsh
 
-# Copy the User Settings
-RUN mkdir  $SRC_DIR/.res
-COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/res/ $SRC_DIR/.res/
-
-# Copy SignApk to Proper Location in Container
-RUN mv $SRC_DIR/.res/SignApk $HACKTOOLS_DIR/SignApkUtils/ && \
-    chmod +x $HACKTOOLS_DIR/SignApkUtils/signapk.jar
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
+    -t https://github.com/denysdovhan/spaceship-prompt \
+    -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
+    -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
+    -p git \
+    -p sudo \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions
