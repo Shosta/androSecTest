@@ -1,0 +1,26 @@
+{
+  "application": {
+    "version": "0.1"
+  },
+  "tools": {
+    "jadx": "/home/Developpement/HackingTools/DecompilingAndroidAppUtils/jadx/bin/jadx",
+    "apktool": "/home/Developpement/HackingTools/DecompilingAndroidAppUtils/apktool/apktool.jar",
+    "signapk": "/home/Developpement/HackingTools/SignApkUtils/sign.jar"
+  },
+  "hackingtools": {
+    "humpty-dumpty": "/home/Developpement/HackingTools/humpty-dumpty-android-master/humpty.sh"
+  },
+
+  
+  "application": {
+    "version": "0.1"
+  },
+  "tools": {
+    "jadx": "",
+    "apktool": "",
+    "signapk": ""
+  },
+  "hackingtools": {
+    "humpty-dumpty": ""
+  }
+}

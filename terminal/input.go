@@ -17,32 +17,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package logging : Provides printing on the terminal using several colors.
-package logging
+// Package terminal : Provides the features to read a user input from the terminal.
+package terminal
 
-import "github.com/Shosta/androSecTest/variables"
+import (
+	"bufio"
+	"os"
 
-// Orange  : 
-func Orange(str string) string {
-	return variables.Orange + str + variables.Endc
-}
+	"github.com/Shosta/androSecTest/logging"
+)
 
-// Green : 
-func Green(str string) string {
-	return variables.Green + str + variables.Endc
-}
+// Waitfor a user input on the CLI.
+// It returns the user input as a string.
+func Waitfor() string {
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		logging.PrintlnDebug("User wrote: " + scanner.Text())
+		return scanner.Text()
+	}
 
-// Red : 
-func Red(str string) string {
-	return variables.Red + str + variables.Endc
-}
+	if scanner.Err() != nil {
+		// handle error.
+	}
 
-// Blue : 
-func Blue(str string) string {
-	return variables.Blue + str + variables.Endc
-}
-
-// Bold :
-func Bold(str string) string {
-	return variables.Bold + str + variables.Endc
+	return ""
 }

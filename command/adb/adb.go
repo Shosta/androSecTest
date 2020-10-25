@@ -1,9 +1,23 @@
-// Copyright 2014 The Go Authors.  All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+/*
+Copyright 2018 Rémi Lavedrine.
 
-// This program can be used as go_android_GOARCH_exec by the Go tool.
-// It executes binaries on an android device using adb.
+Licensed under the Mozilla Public License, version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+https://www.mozilla.org/en-US/MPL/
+
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+// Package adb : It executes binaries on an android device using adb.
 package adb
 
 import (
@@ -11,7 +25,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/logging"
 )
 
 func runAdb(args ...string) string {
@@ -25,7 +39,7 @@ func runAdb(args ...string) string {
 	return string(output)
 }
 
-// Pull
+// Pull :
 func Pull(pkgpath string, pkgdest string) string {
 	logging.PrintlnDebug(logging.Green("Package path : ") + logging.Bold(pkgpath))
 	logging.PrintlnDebug(logging.Green("Package destination : ") + logging.Bold(pkgdest))
@@ -40,9 +54,9 @@ func Pull(pkgpath string, pkgdest string) string {
 	return string(output)
 }
 
-// Get the path of the package name on the connected device on adb.
+// PkgPath : Get the path of the package name on the connected device on adb.
 // It returns the package's path on the device as a string.
-func Path(pkgname string) string {
+func PkgPath(pkgname string) string {
 	logging.PrintlnDebug(logging.Green("Package name: ") + pkgname)
 
 	var args = []string{"shell", "pm", "path", pkgname}
@@ -54,6 +68,7 @@ func Path(pkgname string) string {
 	return pkgpath
 }
 
+// ListPackages :
 func ListPackages(pkgnamepart string) []string {
 	logging.Println(logging.Green("Get the packages names") + " on the device that contains \"" + logging.Bold(pkgnamepart) + "\":")
 
@@ -64,7 +79,7 @@ func ListPackages(pkgnamepart string) []string {
 	return pkgs
 }
 
-//adb uninstall " + package_name
+//Uninstall : adb uninstall " + package_name
 func Uninstall(pkgname string) string {
 	logging.PrintlnDebug("Uninstall app on the device.")
 	out := runAdb("uninstall", pkgname)
@@ -72,11 +87,19 @@ func Uninstall(pkgname string) string {
 	return string(out)
 }
 
-//adb install /tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
+//Install : adb install /tmp/Attacks/DebuggablePackage/" + package_name + ".b.s.apk"
 func Install(localpkgpath string) string {
 	logging.PrintlnDebug("Install app on the device.")
 	logging.PrintlnDebug("Local package path: " + localpkgpath)
 	out := runAdb("install", localpkgpath)
+
+	return string(out)
+}
+
+// Devices : List the devices connected to the computer.
+func Devices() string {
+	logging.PrintlnDebug("List devices connected to the computer.")
+	out := runAdb("devices", "-l")
 
 	return string(out)
 }

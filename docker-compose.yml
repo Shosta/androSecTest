@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./DockerFiles/Ubuntu/Dockerfile
+    image: androsectest-ubuntu
+  app-alpine:
+    build:
+      context: .
+      dockerfile: ./DockerFiles/Alpine/Dockerfile
+    image: androsectest-alpine
+  dev-env:
+    build:
+      context: .
+      dockerfile: ./DockerFiles/Development/Dockerfile
+    image: androsectest-dev

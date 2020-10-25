@@ -13,6 +13,31 @@ Here is a quick Cheat Sheet to test the security of an Android app that AndroSec
 
 You can have a quick look at how the application is pentesting an Android app on Youtube : https://youtu.be/zzyTFjnwolo
 
+## Easiest Way to Try It 
+
+### Use the docker Container
+
+1. Build the Docker Container that has all the dependencies and tools already installed.
+    > `docker build .`
+
+2. Connect your Android Device
+
+    2.1. Be sure that the "adb server" is **not** running on the host machine as an android phone can only be connected to one adb server at a given time.
+    
+    2.2. USB connection is not working from host device to Container on MacOS, so it is only working on a Linux host for the time being.
+
+3. Run the Docker Container
+    > `docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb "The Container ID"`
+
+    3.1 `-it` is here so that we can have an iteractive session.
+
+    3.2. `--privileged` is required to use a USB device.
+
+    3.3. `-v /dev/bus/usb:/dev/bus/usb` defines a shared volume between the host machine and the Container in order to share the USB device (*the android phone*) information
+
+⚠️ The results from the SAST is not persisted outside of the Docker Container at the moment.
+I am planning to add a shared volume to persist it in the near future.
+
 ## The first part of the Security testing is to :
 1. Get the application from the Store,
 1. Pull it from the device,

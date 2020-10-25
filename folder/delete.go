@@ -17,32 +17,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package logging : Provides printing on the terminal using several colors.
-package logging
+// Package folder :
+package folder
 
-import "github.com/Shosta/androSecTest/variables"
+import (
+	"os"
+)
 
-// Orange  : 
-func Orange(str string) string {
-	return variables.Orange + str + variables.Endc
-}
-
-// Green : 
-func Green(str string) string {
-	return variables.Green + str + variables.Endc
-}
-
-// Red : 
-func Red(str string) string {
-	return variables.Red + str + variables.Endc
-}
-
-// Blue : 
-func Blue(str string) string {
-	return variables.Blue + str + variables.Endc
-}
-
-// Bold :
-func Bold(str string) string {
-	return variables.Bold + str + variables.Endc
+// Delete : Delete a folder and all of its children.
+func Delete(path string) {
+	os.RemoveAll(path)
 }
