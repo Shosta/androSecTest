@@ -10,8 +10,3 @@ services:
       context: .
       dockerfile: ./DockerFiles/Alpine/Dockerfile
     image: androsectest-alpine
-  dev-env:
-    build:
-      context: .
-      dockerfile: ./DockerFiles/Development/Dockerfile
-    image: androsectest-dev
