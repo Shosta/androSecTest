@@ -53,7 +53,8 @@ RUN apt update -y && apt install -y --no-install-recommends \
     wget \
     android-tools-adb \
     bash-completion \
-    golang-go
+    golang-go \
+    gcc
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
