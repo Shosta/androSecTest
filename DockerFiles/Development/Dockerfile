@@ -41,7 +41,7 @@ LABEL \
     maintainer="Rémi Lavedrine <remi@github.com>" \
     description="Android Security Test (AndroSecTest) is an automated, all-in-one mobile application (Android) security assessment framework capable of performing static."
 
-ENV SRC_DIR=/workspaces/androSecTest
+ENV SRC_DIR=/root/go/src/github.com/Shosta/androSecTest
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 WORKDIR $SRC_DIR
 
@@ -53,7 +53,8 @@ RUN apt update -y && apt install -y --no-install-recommends \
     wget \
     android-tools-adb \
     bash-completion \
-    golang-go
+    golang-go \
+    gcc
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
@@ -72,3 +73,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p sudo \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
+
+RUN mkdir $SRC_DIR/.res
+COPY ./res/ $SRC_DIR/.res/
