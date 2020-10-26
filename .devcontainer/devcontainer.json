@@ -7,7 +7,7 @@
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 		"go.useLanguageServer": true,
-		"terminal.integrated.shell.linux": null
+		"terminal.integrated.shell.linux": "/bin/zsh"
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
@@ -20,19 +20,17 @@
 		"visualstudioexptteam.vscodeintellicode"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [5037],
-	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	"postCreateCommand": [
-		"bash -i -c 'go get ./...'",
-		"bash -i -c 'cp -r ./res/SignApk /home/Developpement/HackingTools/SignApkUtils/'",
-		"bash -i -c 'chmod +x /home/Developpement/HackingTools/SignApkUtils/signapk.jar'"
+	"forwardPorts": [
+		5037
 	],
+	// Uncomment the next line to run commands after the container is created - for example installing curl.
+	"postCreateCommand": "go get ./... && cp -r ./res/SignApk /home/Developpement/HackingTools/SignApkUtils/ && chmod +x /home/Developpement/HackingTools/SignApkUtils/signapk.jar",
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",
 		"--security-opt",
 		"seccomp=unconfined",
-		"-- privileged"
+		"--privileged"
 	],
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	// "mounts": [
