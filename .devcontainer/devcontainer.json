@@ -20,10 +20,10 @@
 		"visualstudioexptteam.vscodeintellicode"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [5037],
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
 	"postCreateCommand": [
-		"go get ./...",
+		"bash -i -c 'go get ./...'",
 		"bash -i -c 'cp -r ./res/SignApk /home/Developpement/HackingTools/SignApkUtils/'",
 		"bash -i -c 'chmod +x /home/Developpement/HackingTools/SignApkUtils/signapk.jar'"
 	],
@@ -31,7 +31,8 @@
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",
 		"--security-opt",
-		"seccomp=unconfined"
+		"seccomp=unconfined",
+		"-- privileged"
 	],
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	// "mounts": [
