@@ -58,7 +58,7 @@ func Setup(force bool) {
 	if us.Tools.Jadx == "" || us.Tools.SignApk == "" || us.HackingTools.HumptyDumpty == "" || force == true {
 		// Ask user to fill in the tools paths.
 		logging.Print(logging.Green("Where is located Jadx?") + " (copy and paste the absolute path to your jadx executable, should look like \"/home/user/hacking/tools/jadx/jadx\"\n" + logging.Blue(">  "))
-		jadxuserentry := terminal.Waitfor()
+		jadxuserentry := terminal.Waitfor()	
 		us.Tools.Jadx = jadxuserentry
 
 		logging.Print(logging.Green("Where is located SignApk?") + " (copy and paste the absolute path to your signapk jar file, should look like \"/home/user/hacking/tools/signapk/sign.jar\"\n" + logging.Blue(">  "))
