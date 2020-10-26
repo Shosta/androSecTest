@@ -33,7 +33,7 @@ func copyDump(pkgname string) {
 	logging.PrintlnDebug("Delete \"dump\" folder if it exists")
 	folder.Delete(destDir)
 
-	logging.PrintlnDebug("Copy dump folder to proper location")
+	logging.PrintlnDebug("Copy \"dump\" folder to proper location")
 	folder.CopyDir(srcDir, destDir)
 }
 
@@ -51,8 +51,8 @@ func pullLocalStorage(pkgname string) {
 // DoInsecureStorage :
 func DoInsecureStorage(pkgname string) {
 	logging.Println(logging.Green("Test Insecure Storage"))
-	
-	logging.Println(logging.Blue("Did you use all the features of the application?" ) + "[" + logging.Red("y") + "]es [" + logging.Red("n") + "]o")
+
+	logging.Println(logging.Blue("Did you use all the features of the application?") + "[" + logging.Red("y") + "]es [" + logging.Red("n") + "]o")
 	terminal.Waitfor()
 
 	pullLocalStorage(pkgname)

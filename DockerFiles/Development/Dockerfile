@@ -74,5 +74,5 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
 
-RUN mkdir  $SRC_DIR/.res
+RUN mkdir $SRC_DIR/.res
 COPY ./res/ $SRC_DIR/.res/
