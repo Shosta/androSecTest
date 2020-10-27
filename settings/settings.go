@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package settings : Provides features to store the user settings in a file.
+// Package settings : Provides features to store the user settings in a file. 
 // It stores or updates the path to the executables that are required to pursue the penetration testing.
 package settings
 
