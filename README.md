@@ -8,41 +8,64 @@
  
  # Android-Static-Security-Audit
 
-Here is a quick Cheat Sheet to test the security of an Android app that AndroSecTest is doing.
+AndroSecTest is a [Go](https://golang.org/) application that helps you during your Android application pentesting.
 
-You can have a quick look at how the application is pentesting an Android app on Youtube : https://youtu.be/zzyTFjnwolo
+It removes all the hassle of extracting an app, disassembling it and looking for low hanging fruits.
 
-## Run it in a Docker Container (*nothing to install or configure. I did everything for you* 😉) 
+You can have a quick look at how the application is pentesting an Android app on Youtube : 
 
+[![Watch it here](https://img.youtube.com/vi/zzyTFjnwolo/hqdefault.jpg)](https://youtu.be/zzyTFjnwolo)
+
+
+## How to Use It ?  🤔
+
+Run it in a Docker Container (*nothing to install or configure. I did everything for you* 😉) 
+
+
+1. Clone the AndroSecTest repo
+    > `git clone git@github.com:Shosta/androSecTest.git`
 
 1. Build the Docker Container that has all the dependencies and tools already installed.
     > `docker build .`
 
-2. Connect your Android Device
+1. Connect your Android Device
 
-    2.1. Be sure that the "adb server" is **not** running on the host machine as an android phone can only be connected to one adb server at a given time.
+    3.1. Be sure that the "adb server" is **NOT** running on the host machine as an android phone can only be connected to one adb server at a given time.
     
-    2.2. USB connection is not working from host device to Container on MacOS, so it is only working on a Linux host for the time being.
+    3.2. USB connection is not working from host device to Container on MacOS, so it is only working on a Linux host for the time being.
 
-3. On Linux 🐧 - Run the Docker Container
+1. On Linux 🐧 - Run the Docker Container
     > `docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb "The Container ID"`
 
-    3.1 `-it` is here so that we can run an iteractive session.
+    4.1 `-it` is here so that we can run an iteractive session.
 
-    3.2. `--privileged` is required to use a USB device.
+    4.2. `--privileged` is required to use a USB device.
 
-    3.3. `-v /dev/bus/usb:/dev/bus/usb` defines a shared volume between the host machine and the Container in order to share the USB device (*the android phone*) information
+    4.3. `-v /dev/bus/usb:/dev/bus/usb` defines a shared volume between the host machine and the Container in order to share the USB device (*the android phone*) information
 
-4. On Mac 🍏 - Run the Docker Container
-    > `docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb "The Container ID"`
+1. On Mac 🍏 - Run the Docker Container
+    > `docker run -it --privileged "The Container ID"`
 
-    3.1 `-it` is here so that we can run an iteractive session.
+    5.1 `-it` is here so that we can run an iteractive session.
 
-    3.2. `--privileged` is required to use a USB device.
+    5.2. `--privileged` is required to use a USB device.
 
-    3.3. `-v <the folder to persist the Pentest Results>:/home/androSecTest-Results` defines a shared volume between the host machine and the Container in order to share the Pentest results.
+    5.3. `-v <the folder to persist the Pentest Results>:/home/androSecTest-Results` defines a shared volume between the host machine and the Container in order to share the Pentest results.
 
-## What this app is doing ? (*in case you want to do a step by step, to understand the method it is using*)
+Well done, you are good to go.
+Get into your Docker Container, fire the androSecTest, connect your device and start assessing the security of your Android application.
+
+---
+
+## What is this app is doing ? 🤔
+(*in case you want to do a step by step, to understand the method it is using*)
+
+I made this app, in order to automate a part of the process of pentesting and android app. Every time, I had to exfiltrate the app from the device and disassemble the code and then repackage the app with some instrumentation.
+
+androSecTest is doing that for you automatically (*and much more*).
+
+### Here are the steps, it is doing :
+
 1. Get the application you want to pentest from the Store,
 1. Pull it from the device,
 1. Unpackaged it,
@@ -53,8 +76,13 @@ You can have a quick look at how the application is pentesting an Android app on
 🎉 You have a debuggable application on your device, with Backup available.
 🎉 You have the source code of the application on your file system, ready for analysis. 
 
-## How to do that ? 🤔
-### 1. Get the application from your device, using the `adb` command
+---
+
+## How to Do that Manually in your Terminal ? 🤔
+
+It is a good idea to do that once, in order to understand what an Android app Security Assessment looks like.
+
+### 1. Pull the application from your device, using the `adb` command
 #### 1.1. List the applications' package names on your device :
 > `adb shell pm list packages | grep “hint from the app you are looking for”`
 
@@ -138,7 +166,7 @@ Add a “network_security_config.xml” file in the “xml” folder with the fo
 ```
 
 #### 5. Add the certificate to the device.
-Download it from Burp, Charles, etc… and add it to your device following your preferred method (add push to the sdcard is the method I use).
+Download it from [Burp](https://portswigger.net/burp), [Charles](https://www.charlesproxy.com/), etc… and add it to your device following your preferred method (*add `push` to the sdcard is the method I use*).
 You can use Bettercap to monitor the UDP traffic.
 
 
