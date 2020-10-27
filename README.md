@@ -21,6 +21,7 @@ You can have a quick look at how the application is pentesting an Android app on
 
 Run it in a Docker Container (*nothing to install or configure. I did everything for you* 😉) 
 
+ `docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb -v ./android/security:/home/androSecTest-Results <container_id>`
 
 1. Clone the AndroSecTest repo
     > `git clone git@github.com:Shosta/androSecTest.git`

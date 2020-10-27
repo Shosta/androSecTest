@@ -1,5 +1,3 @@
-*/
-
 // Package settings : Provides features to store the user settings in a file. 
 // It stores or updates the path to the executables that are required to pursue the penetration testing.
 package settings

@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"fmt"
 	"os/exec"
 
 	"github.com/Shosta/androSecTest/logging"
@@ -46,8 +47,17 @@ func isAdbInstalled() bool {
 
 // IsApktoolInstalled : Return if apktool is in the user's PATH so that we could call it directly when executing a command.
 func IsApktoolInstalled() (bool, string) {
-	path, err := exec.LookPath("apktool")
+	us, err := loadUsrSettings()
 	if err != nil {
+		logging.PrintlnError(fmt.Sprint(err))
+		return false, ""
+	}
+
+	path, err := exec.LookPath(us.Tools.Apktool)
+	if err != nil {
+		logging.PrintlnError("didn't find 'apktool' executable\n")
+		return false, ""
+	} else if err != nil {
 		logging.PrintlnError("didn't find 'apktool' executable\n")
 		return false, ""
 	}
@@ -59,8 +69,13 @@ func IsApktoolInstalled() (bool, string) {
 // TODO : Move the signapk executable path to an external folder.
 // Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
 func isSignApkInstalled() bool {
-	// TODO : Check from the internal setup file and not the LookPath as signapk is not in the PATH.
-	path, err := exec.LookPath("signapk")
+	us, err := loadUsrSettings()
+	if err != nil {
+		logging.PrintlnError(fmt.Sprint(err))
+		return false
+	}
+
+	path, err := exec.LookPath(us.Tools.SignApk)
 	if err != nil {
 		logging.PrintlnError("didn't find 'signapk' executable\n")
 		return false
@@ -73,8 +88,14 @@ func isSignApkInstalled() bool {
 // TODO : Move the jadx executable path to an external folder.
 // Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
 func isJadxInstalled() bool {
-	// TODO : Check from the internal setup file and not the LookPath as signapk is not in the PATH.
-	path, err := exec.LookPath("jadx")
+	us, err := loadUsrSettings()
+	if err != nil {
+		logging.PrintlnError(fmt.Sprint(err))
+		return false
+	}
+
+	err = nil
+	path, err := exec.LookPath(us.Tools.Jadx)
 	if err != nil {
 		logging.PrintlnError("didn't find 'jadx' executable\n")
 		return false
