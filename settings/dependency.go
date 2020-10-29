@@ -54,10 +54,7 @@ func IsApktoolInstalled() (bool, string) {
 	}
 
 	path, err := exec.LookPath(us.Tools.Apktool)
-	if err != nil {
-		logging.PrintlnError("didn't find 'apktool' executable\n")
-		return false, ""
-	} else if err != nil {
+	 if err != nil {
 		logging.PrintlnError("didn't find 'apktool' executable\n")
 		return false, ""
 	}
