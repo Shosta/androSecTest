@@ -56,12 +56,19 @@ RUN apt update -y && apt install -y --no-install-recommends \
     golang-go \
     gcc
 
+RUN apt install -y --no-install-recommends libc-dev git-all
+RUN go get github.com/go-delve/delve/cmd/dlv
+RUN go get golang.org/x/tools/gopls
+
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
 RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
 
 # Copy Humpty-dumpty
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
+
+# RUN mkdir -p $SRC_DIR/.res
+COPY ./res/ $SRC_DIR/.res/
 
 RUN apt install -y --no-install-recommends git zsh && chsh -s /usr/bin/zsh
 
@@ -73,6 +80,3 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p sudo \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
-
-RUN mkdir $SRC_DIR/.res
-COPY ./res/ $SRC_DIR/.res/

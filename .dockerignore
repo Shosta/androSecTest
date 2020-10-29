@@ -1,2 +1,3 @@
 ./res/SignApk/README
 ./res/settings/usersettings-template.json
+./android/security/*
