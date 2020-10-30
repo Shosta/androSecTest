@@ -1,4 +1,23 @@
-// Package settings : Provides features to store the user settings in a file. 
+/*
+Copyright 2018 Rémi Lavedrine.
+
+Licensed under the Mozilla Public License, version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+https://www.mozilla.org/en-US/MPL/
+
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+// Package settings : Provides features to store the user settings in a file.
 // It stores or updates the path to the executables that are required to pursue the penetration testing.
 package settings
 
@@ -56,7 +75,7 @@ func Setup(force bool) {
 	if us.Tools.Jadx == "" || us.Tools.SignApk == "" || us.HackingTools.HumptyDumpty == "" || force == true {
 		// Ask user to fill in the tools paths.
 		logging.Print(logging.Green("Where is located Jadx?") + " (copy and paste the absolute path to your jadx executable, should look like \"/home/user/hacking/tools/jadx/jadx\"\n" + logging.Blue(">  "))
-		jadxuserentry := terminal.Waitfor()	
+		jadxuserentry := terminal.Waitfor()
 		us.Tools.Jadx = jadxuserentry
 
 		logging.Print(logging.Green("Where is located SignApk?") + " (copy and paste the absolute path to your signapk jar file, should look like \"/home/user/hacking/tools/signapk/sign.jar\"\n" + logging.Blue(">  "))

@@ -26,11 +26,11 @@ import (
 
 func copyDump(pkgname string) {
 	srcDir := "/home/shosta/ShostaSyncBox/Developpement/HackingTools/humpty-dumpty-android-master/dumps/" + pkgname
-	destDir := InsecStorageDirPath(pkgname)
+	destDir := InsecStorageDirPath(pkgname) + "dumps"
 	logging.PrintlnDebug("Source : " + srcDir)
 	logging.PrintlnDebug("Dest : " + destDir)
 
-	logging.PrintlnDebug("Delete \"dump\" folder if it exists")
+	logging.PrintlnDebug("Delete \"dumps\" folder if it exists")
 	folder.Delete(destDir)
 
 	logging.PrintlnDebug("Copy \"dump\" folder to proper location")
@@ -49,6 +49,7 @@ func pullLocalStorage(pkgname string) {
 }
 
 // DoInsecureStorage :
+// TODO : Understand why Insecure Storage is not working. Even if we have a debuggable application.
 func DoInsecureStorage(pkgname string) {
 	logging.Println(logging.Green("Test Insecure Storage"))
 

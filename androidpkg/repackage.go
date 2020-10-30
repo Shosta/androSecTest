@@ -45,6 +45,7 @@ func Setup(pkgname string) {
 	disassemble(pkgname)
 	mkdbg(pkgname)
 	allowbackup(pkgname)
+	removecertpin(pkgname)
 	addDbgBadgeOnAppIcon(pkgname)
 	rebuild(pkgname)
 	sign(pkgname)
@@ -85,6 +86,14 @@ func mkdbg(pkgname string) {
 	sed.Replace(disassembledDirPath+"/AndroidManifest.xml", "<application", "<application android:debuggable=\"true\"")
 
 	logging.Println(logging.Bold("Done"))
+}
+
+// Remove Certificate pinning to the debuggable application so that we can later perform man in the middle attack.
+func removecertpin(pkgname string) {
+	// Le certificate pinning est défini dans le fichier "network_security_config.xml".
+	// Il est défini dans le manifest de l'application dans le tag : "android:networkSecurityConfig" qui nous donne un résultat du type "@dossier/nomfichier.xml"
+	// TODO : Lire le fichier Manifest et en définir le fichier qui définit le certificate pinning.
+	// TODO : Modifier le fichier "network_security_config.xml" afin d'autoriser les certificats utilisateurs en mode debug.
 }
 
 // TODO : Should verify that the AllowBackup is not already available in the AppManifest.xml file.
