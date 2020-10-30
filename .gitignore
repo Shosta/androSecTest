@@ -2,6 +2,8 @@
 \.vscode/settings\.json
 \.res/*
 
+config/config.go
+
 androSecTest
 
 res/SignApk/README
