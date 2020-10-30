@@ -58,7 +58,7 @@ func IsApktoolInstalled() (bool, string) {
 		logging.PrintlnError("didn't find 'apktool' executable\n")
 		return false, ""
 	}
-	logging.PrintlnVerbose("'apktool' executable is in " + path)
+	logging.PrintlnDebug("'apktool' executable is in " + path)
 
 	return true, path
 }
@@ -77,7 +77,7 @@ func isSignApkInstalled() bool {
 		logging.PrintlnError("didn't find 'signapk' executable\n")
 		return false
 	}
-	logging.PrintlnVerbose("'signapk' executable is in " + path)
+	logging.PrintlnDebug("'signapk' executable is in " + path)
 
 	return true
 }
@@ -97,7 +97,7 @@ func isJadxInstalled() bool {
 		logging.PrintlnError("didn't find 'jadx' executable\n")
 		return false
 	}
-	logging.PrintlnVerbose("'jadx' executable is in " + path)
+	logging.PrintlnDebug("'jadx' executable is in " + path)
 
 	return true
 }
