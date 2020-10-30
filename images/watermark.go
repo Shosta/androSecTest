@@ -76,8 +76,7 @@ func Watermark(watermarkPath string, imgSrcPath string) {
 	}
 	defer watermarkImg.Close()
 
-	// Add watermak in the middle of the Source image
-	offset := image.Pt(watermark.Bounds().Dx()/2, watermark.Bounds().Dy()/2)
+	// Add watermak on Source image at one third of the final image.
 	b := src.Bounds()
 	offset := image.Pt(b.Dx()/5, b.Dy()/5)
 

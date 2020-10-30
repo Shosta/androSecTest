@@ -17,8 +17,7 @@
 		"formulahendry.code-runner",
 		"aaron-bond.better-comments",
 		"oderwat.indent-rainbow",
-		"visualstudioexptteam.vscodeintellicode",
-		"coenraads.bracket-pair-colorizer-2"
+		"visualstudioexptteam.vscodeintellicode"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
@@ -26,9 +25,6 @@
 	],
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
 	"postCreateCommand": "go get ./... && cp -r ./res/SignApk /home/Developpement/HackingTools/SignApkUtils/ && chmod +x /home/Developpement/HackingTools/SignApkUtils/signapk.jar",
-	// "postCreateCommand": "bash scripts/install-dev-tools.sh",
-	// Add this line to the beginning of the ~/.zshrc file as I come from bash.
-	"postStartCommand": "sed -i '1i\\'\"export PATH=$HOME/bin:/usr/local/bin:/root/go/bin:$PATH\" ~/.zshrc && cp -R res/watermark .res/watermark && cp -R res/settings/usersettings.json .res/settings",
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",

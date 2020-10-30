@@ -40,9 +40,7 @@ func main() {
 		Verbose     bool   `arg:"-v" help:"verbosity level (verbose or not)"`
 	}
 	arg.MustParse(&args)
-	if args.Settings {
-		settings.Setup(args.Settings)
-	}
+	settings.Setup(args.Settings)
 
 	if !devices.IsConnected() {
 		logging.Println(logging.Green("No device is connected.") + "\nPlease " + logging.Bold("connect a device to your computer") + " prior to any penetration testing.")

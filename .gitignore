@@ -1,8 +1,6 @@
 
 \.vscode/settings\.json
-\.res/*
-
-config/config.go
+\.res
 
 androSecTest
 

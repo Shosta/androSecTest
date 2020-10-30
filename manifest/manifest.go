@@ -38,14 +38,9 @@ type Manifest struct {
 
 // Application :
 type Application struct {
-	Icon                  string `xml:"icon,attr"`
-	AllowBackup           string `xml:"allowBackup,attr"`
-	NetworkSecurityConfig string `xml:"networkSecurityConfig,attr"`
+	Icon        string `xml:"icon,attr"`
+	AllowBackup string `xml:"allowBackup,attr"`
 }
-
-var icname string
-var secconfdir string
-var secconffile string
 
 func icon(pkgname string) string {
 	// Open our xmlFile
@@ -68,9 +63,6 @@ func icon(pkgname string) string {
 		fmt.Println(err)
 	}
 	logging.PrintlnDebug("Icon : " + manifest.Application.Icon)
-	icname = strings.Split(manifest.Application.Icon, "/")[1]
-	secconfdir = strings.Split(manifest.Application.NetworkSecurityConfig, "/")[0]
-	secconffile = strings.Split(manifest.Application.NetworkSecurityConfig, "/")[1]
 
 	return manifest.Application.Icon
 }
