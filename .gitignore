@@ -1,11 +1,14 @@
-
+# Folders
 \.vscode/settings\.json
 \.res/*
+android/security/*
+debug/*
 
+# Config Files
 config/config_*
 
-androSecTest
-
+# README file from tools
 res/SignApk/README
 
-debug
+# Executable
+androSecTest

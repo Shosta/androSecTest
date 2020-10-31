@@ -45,8 +45,8 @@ ENV SRC_DIR=/root/go/src/github.com/Shosta/androSecTest
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 WORKDIR $SRC_DIR
 
+# Set up the time as Europe/Paris
 ENV TZ=Europe/Paris
-
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
@@ -61,6 +61,11 @@ RUN apt update -y && apt install -y --no-install-recommends \
     golang-go \
     gcc
 
+# Install the Go Debugger (Delve) and libc as it is required to run Delve.
+RUN apt install -y --no-install-recommends libc-dev git-all
+RUN go get github.com/go-delve/delve/cmd/dlv
+RUN go get golang.org/x/tools/gopls
+
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
 RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
@@ -68,6 +73,7 @@ RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
 # Copy Humpty-dumpty
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
 
+# Install zsh as the default shell within the container.
 RUN apt install -y --no-install-recommends git zsh && chsh -s /usr/bin/zsh
 
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
@@ -79,5 +85,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
 
+# Copy the resources folders to a hidden one in the container as it is what's used when the app is running.
 RUN mkdir $SRC_DIR/.res
 COPY ./res/ $SRC_DIR/.res/

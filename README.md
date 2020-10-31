@@ -1,4 +1,3 @@
-
 <a href="https://github.com/Shosta/androSecTest/stargazers"><img alt="Ask me anything" src="https://img.shields.io/static/v1.svg?label=Ask%20me&message=anything&color=green"></a>
 <a href="https://github.com/Shosta/androSecTest/stargazers"><img alt="Maintained" src="https://img.shields.io/static/v1.svg?label=Maintained?&message=Yes&color=Blue"></a>
 <a href="https://github.com/Shosta/androSecTest/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Shosta/androSecTest.svg?style=social"></a>
@@ -9,44 +8,85 @@
  
  # Android-Static-Security-Audit
 
-Here is a quick Cheat Sheet to test the security of an Android app that AndroSecTest is doing.
+AndroSecTest is a [Go](https://golang.org/) application that helps you during your Android application pentesting.
 
-You can have a quick look at how the application is pentesting an Android app on Youtube : https://youtu.be/zzyTFjnwolo
+It removes all the hassle of extracting an app, disassembling it and looking for low hanging fruits.
 
-## Easiest Way to Try It 
+You can have a quick look at how the application is pentesting an Android app on Youtube : 
 
-### Use the docker Container
+[![Watch it here](https://img.youtube.com/vi/zzyTFjnwolo/hqdefault.jpg)](https://youtu.be/zzyTFjnwolo)
+
+
+## How to Use It ?  🤔
+
+Run it in a Docker Container (*nothing to install or configure. I did everything for you* 😉) 
+
+ `docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb -v ./android/security:/home/androSecTest-Results <container_id>`
+
+1. Clone the AndroSecTest repo
+    > `git clone git@github.com:Shosta/androSecTest.git`
 
 1. Build the Docker Container that has all the dependencies and tools already installed.
     > `docker build .`
 
-2. Connect your Android Device
+1. Connect your Android Device
 
-    2.1. Be sure that the "adb server" is **not** running on the host machine as an android phone can only be connected to one adb server at a given time.
+    3.1. Be sure that the "adb server" is **NOT** running on the host machine as an android phone can only be connected to one adb server at a given time.
     
-    2.2. USB connection is not working from host device to Container on MacOS, so it is only working on a Linux host for the time being.
+    3.2. USB connection is not working from host device to Container on MacOS, so it is only working on a Linux host for the time being.
 
-3. Run the Docker Container
-    > `docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb "The Container ID"`
+1. On Linux 🐧 - Run the Docker Container
+    > `docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb <The Container ID>`
 
-    3.1 `-it` is here so that we can have an iteractive session.
+    4.1 `-it` is here so that we can run an iteractive session.
 
-    3.2. `--privileged` is required to use a USB device.
+    4.2. `--privileged` is required to use a USB device.
 
-    3.3. `-v /dev/bus/usb:/dev/bus/usb` defines a shared volume between the host machine and the Container in order to share the USB device (*the android phone*) information
+    4.3. `-v /dev/bus/usb:/dev/bus/usb` defines a shared volume between the host machine and the Container in order to share the USB device (*the android phone*) information
 
-⚠️ The results from the SAST is not persisted outside of the Docker Container at the moment.
-I am planning to add a shared volume to persist it in the near future.
+1. On Mac 🍏 - Run the Docker Container
+    > `docker run -it --privileged <The Container ID>`
 
-## The first part of the Security testing is to :
-1. Get the application from the Store,
+    5.1 `-it` is here so that we can run an iteractive session.
+
+    5.2. `--privileged` is required to use a USB device.
+
+    5.3. `-v <the folder to persist the Pentest Results>:/home/androSecTest-Results` defines a shared volume between the host machine and the Container in order to share the Pentest results.
+
+    5.4 Your android device has to be connected wirelessly with your Mac computer in order to make it work within the container (*as Mac OS doesn't have a folder to share the USB device)*.
+
+### 👏 Well done, you are good to go.
+
+Get into your Docker Container, fire the androSecTest app, connect your device and start assessing the security of your Android application. 👨‍💻
+
+---
+
+## What is this app is doing ? 🤔
+(*in case you want to do a step by step, to understand the method it is using*)
+
+I made this app, in order to automate a part of the process of pentesting and android app. Every time, I had to exfiltrate the app from the device and disassemble the code and then repackage the app with some instrumentation.
+
+androSecTest is doing that for you automatically (*and much more*).
+
+### Here are the steps, it is doing :
+
+1. Get the application you want to pentest from the Store,
 1. Pull it from the device,
 1. Unpackaged it,
 1. Look for some unsecure behavior,
 1. Make it debuggable,
 1. Repackage it and reinstall it on the device.
 
-### 1. Get the application from your device, using the `adb` command
+🎉 You have a debuggable application on your device, with Backup available.
+🎉 You have the source code of the application on your file system, ready for analysis. 
+
+---
+
+## How to Do that Manually in your Terminal ? 🤔
+
+> It is a good idea to do that once, in order to understand what an Android app Security Assessment looks like.
+
+### 1. Pull the application from your device, using the `adb` command
 #### 1.1. List the applications' package names on your device :
 > `adb shell pm list packages | grep “hint from the app you are looking for”`
 
@@ -56,10 +96,13 @@ I am planning to add a shared volume to persist it in the near future.
 #### 1.3. Pull it from your device to your computer :
 > `adb pull app.path`
 
-
 #### 1.4. Change the file name from ".apk" to ".zip".
-Unzip the file.
-You now have access to the application's file system.
+> `mv <the_app_your_pentesting.apk> <the_app_your_pentesting.zip>`
+
+#### 1.5. Unzip the file.
+> `unzip <the_app_your_pentesting.zip>`
+
+🎉 You have access to the application's filesystem.
 
 ### 2. Look for interesting strings or files in the application 
 #### 2.1. Locate interesting files or strings
@@ -76,10 +119,10 @@ If you find some files whose name contains 'key' try these commands :
 #### 2.2. Check the application signature.
 
 Verify the signature : 
-> `apksigner verify --verbose Application.apk`
+> `apksigner verify --verbose <the_app_your_pentesting.apk>`
 
 or
-> `jarsigner -verify -certs -verbose app.apk`
+> `jarsigner -verify -certs -verbose <the_app_your_pentesting.apk>`
 
 and
 
@@ -92,21 +135,21 @@ Extract CERT.RSA from the package and display the certificate with keytool.
 You can then check the type of encryption used (hint, [SHA-1 is no more secure](https://shattered.io)).
 
 
-### 2. Make the application debuggable and ready for penetration testing
+### 3. Make the application debuggable and ready for penetration testing
 
 Now that you have the apk file from the application you want, you must disassemble the app to make it debuggable.
 
-#### 1. To disassemble the application, you can use the tool 'apktool'.
+#### 3.1. To disassemble the application, you can use the tool 'apktool'.
 
->`apktool d -o localAppFolder/ app.package.name.apk`
+> `apktool d -o localAppFolder/ app.package.name.apk`
 
-#### 2. Make the application debuggable and allow backup
+#### 3.2. Make the application debuggable and allow backup
 
-In the `"<application”`, in the manifest file, add a `android:debuggable="true”` value to make the app debuggable.
+In the `"<application”`, in the manifest file, add a `android:debuggable="true”` value to make the app debuggable. 🐛
 
-In the `"<application”`, in the manifest file, add a `android:allowBackup="true”` value to allow backup from the app.
+In the `"<application”`, in the manifest file, add a `android:allowBackup="true”` value to allow backup from the app. 💾
 
-#### 3. Intercept and decrypt network requests
+#### 4. Intercept and decrypt network requests
 
 Edit the app Manifest to be able to intercept and decrypt encrypted requests from the app later on:
 In the `"<application”` node, in the manifest file, add a `android:networkSecurityConfig="@xml/network_security_config"` value to be sure that the user added certificate are going to be trusted on a debug configuration.
@@ -126,38 +169,29 @@ Add a “network_security_config.xml” file in the “xml” folder with the fo
     ...
 ```
 
-#### 4. Add the certificate to the device.
-Download it from Burp, Charles, etc… and add it to your device following your preferred method (add push to the sdcard is the method I use).
+#### 5. Add the certificate to the device.
+Download it from [Burp](https://portswigger.net/burp), [Charles](https://www.charlesproxy.com/), etc… and add it to your device following your preferred method (*add `push` to the sdcard is the method I use*).
 You can use Bettercap to monitor the UDP traffic.
 
 
-#### 5. Repackage and sign the app:
+#### 6. Repackage and sign the app:
 1. Repackage the app:
-```
-apk tool b -o app.package.name.apk localAppFolder/
-```
+> `apk tool b -o app.package.name.apk localAppFolder/`
 
 2. Generate a signing key :
-```
-keytool -genkey -v -keystore resign.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
-```
+> `keytool -genkey -v -keystore resign.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000`
+
 3. then sign the app with it : 
-```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore resign.keystore app.package.name.apk alias_name
-```
+> `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore resign.keystore app.package.name.apk alias_name`
 or
-```
-apksigner sign -ks resign.keystore app.package.name.apk
-```
+> `apksigner sign -ks resign.keystore app.package.name.apk`
 
 #### 6. Install the app on the device : 
 
 Run the following command to install the repackage app to the device: 
-```
-adb install app.package.name.apk
-```
+> `adb install app.package.name.apk`
 
-## The next steps of the security testing areto use some static test tool
+## Next Steps and Future Features 🚀
 
 I want to use some Man in the Middle attack while the user is using the application. It will jsute intercept all the requests/responses for later analysis.
 I plan to use Bettercap or mitmproxy to do it.
