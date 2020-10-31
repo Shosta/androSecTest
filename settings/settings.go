@@ -112,6 +112,7 @@ func saveUsrSettings(us UserSettings) error {
 // It reads the Settings file and update the variables accordingly.
 // When using these tools, we can rely on the user defined ones instead of something hard coded.
 func loadUsrSettings() (UserSettings, error) {
+	// TODO il faut déplacer le dossier .res dans /home pour éviter les pbs dans git avec le user root lorsque l'on partage les fichiers entre le container et le local.
 	bytes, err := ioutil.ReadFile("./.res/settings/usersettings.json")
 	if err != nil {
 		return UserSettings{}, err

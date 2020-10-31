@@ -157,7 +157,8 @@ func addDbgBadgeOnAppIcon(pkgname string) {
 		} else if strings.HasSuffix(filepath.Dir(icon), "hdpi") {
 			dpi = "_hdpi"
 		}
-
+		
+		// TODO il faut déplacer le dossier .res dans /home pour éviter les pbs dans git avec le user root lorsque l'on partage les fichiers entre le container et le local.
 		images.Watermark("./.res/watermark/dbg/unlock"+dpi+".png", icon)
 	}
 

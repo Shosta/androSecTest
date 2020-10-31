@@ -6,7 +6,7 @@
     "configurations": [
 
         {
-            "name": "Pentest orange",
+            "name": "Orange Remote",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -16,7 +16,17 @@
             ]
         },
         {
-            "name": "Pentest leboncoin",
+            "name": "Settings Remote",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "/root/go/src/github.com/Shosta/androSecTest/androSecTest.go",
+            "args": [
+                "-s"
+            ]
+        },
+        {
+            "name": "LeBonCoin Remote",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -24,6 +34,16 @@
             "args": [
                 "-p", "leboncoin"
             ]
-        }
+        },
+        {
+            "name": "Orange Local",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "/home/shosta/Developpement/go/src/github.com/Shosta/androSecTest/androSecTest.go",
+            "args": [
+                "-p", "orange"
+            ]
+        },
     ]
 }
