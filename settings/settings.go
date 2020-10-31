@@ -69,8 +69,29 @@ func Setup(force bool) {
 		return
 	}
 
+	// Check apktool
 	isApktoolInstalled, apktoolpath := IsApktoolInstalled()
-	us.Tools.Apktool = apktoolpath
+	if isApktoolInstalled == false {
+		logging.Print(logging.Green("Where is located ApkTool?") + " (copy and paste the absolute path to your apktool executable, should look like \"/usr/local/bin/apktool\"\n" + logging.Blue(">  "))
+		apktuserentry := terminal.Waitfor()
+		us.Tools.Apktool = apktuserentry
+	}
+
+	// Check Jadx
+	isJadxInstalled, apktoolpath := IsJadxInstalled()
+	if isJadxInstalled == false {
+		logging.Print(logging.Green("Where is located Jadx?") + " (copy and paste the absolute path to your jadx executable, should look like \"/home/user/hacking/tools/jadx/jadx\"\n" + logging.Blue(">  "))
+		jadxuserentry := terminal.Waitfor()
+		us.Tools.Jadx = jadxuserentry
+	}
+
+	// Check SignApk
+	isSignApkInstalled, apktoolpath := IsSignApkInstalled()
+	if isSignApkInstalled == false {
+		logging.Print(logging.Green("Where is located SignApk?") + " (copy and paste the absolute path to your signapk jar file, should look like \"/home/user/hacking/tools/signapk/sign.jar\"\n" + logging.Blue(">  "))
+		signuserentry := terminal.Waitfor()
+		us.Tools.SignApk = signuserentry
+	}
 
 	if us.Tools.Jadx == "" || us.Tools.SignApk == "" || us.HackingTools.HumptyDumpty == "" || force == true {
 		// Ask user to fill in the tools paths.
@@ -78,9 +99,6 @@ func Setup(force bool) {
 		jadxuserentry := terminal.Waitfor()
 		us.Tools.Jadx = jadxuserentry
 
-		logging.Print(logging.Green("Where is located SignApk?") + " (copy and paste the absolute path to your signapk jar file, should look like \"/home/user/hacking/tools/signapk/sign.jar\"\n" + logging.Blue(">  "))
-		signuserentry := terminal.Waitfor()
-		us.Tools.SignApk = signuserentry
 
 		if isApktoolInstalled == false {
 			logging.Print(logging.Green("Where is located ApkTool?") + " (copy and paste the absolute path to your apktool executable, should look like \"/usr/local/bin/apktool\"\n" + logging.Blue(">  "))
