@@ -45,6 +45,11 @@ ENV SRC_DIR=/root/go/src/github.com/Shosta/androSecTest
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 WORKDIR $SRC_DIR
 
+ENV TZ=Europe/Paris
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
+
 # Install adb tools, unzip, wget, signapk and apktool
 RUN apt update -y && apt install -y --no-install-recommends \
     openjdk-8-jdk \
