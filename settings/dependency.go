@@ -20,12 +20,12 @@ func AreAllReady() bool {
 		return false
 	}
 
-	areAllReady = isSignApkInstalled()
+	areAllReady, _ = IsSignApkInstalled()
 	if areAllReady != true {
 		return false
 	}
 
-	areAllReady = isJadxInstalled()
+	areAllReady, _ = IsJadxInstalled()
 	if areAllReady != true {
 		return false
 	}
@@ -48,6 +48,12 @@ func isAdbInstalled() bool {
 func IsApktoolInstalled() (bool, string) {
 	path, err := exec.LookPath("apktool")
 	if err != nil {
+		logging.PrintlnError(fmt.Sprint(err))
+		return false, ""
+	}
+
+	path, err := exec.LookPath(us.Tools.Apktool)
+	if err != nil {
 		logging.PrintlnError("didn't find 'apktool' executable\n")
 		return false, ""
 	}
@@ -56,30 +62,41 @@ func IsApktoolInstalled() (bool, string) {
 	return true, path
 }
 
-// TODO : Move the signapk executable path to an external folder.
-// Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
-func isSignApkInstalled() bool {
-	// TODO : Check from the internal setup file and not the LookPath as signapk is not in the PATH.
-	path, err := exec.LookPath("signapk")
+// IsSignApkInstalled : Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
+func IsSignApkInstalled() (bool, string) {
+	// TODO : Move the signapk executable path to an external folder.
+	us, err := loadUsrSettings()
+	if err != nil {
+		logging.PrintlnError(fmt.Sprint(err))
+		return false, ""
+	}
+
+	path, err := exec.LookPath(us.Tools.SignApk)
 	if err != nil {
 		logging.PrintlnError("didn't find 'signapk' executable\n")
-		return false
+		return false, ""
 	}
 	logging.PrintlnVerbose("'signapk' executable is in " + path)
 
-	return true
+	return true, path
 }
 
-// TODO : Move the jadx executable path to an external folder.
-// Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
-func isJadxInstalled() bool {
-	// TODO : Check from the internal setup file and not the LookPath as signapk is not in the PATH.
-	path, err := exec.LookPath("jadx")
+// IsJadxInstalled : Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
+func IsJadxInstalled() (bool, string) {
+	// TODO : Move the jadx executable path to an external folder.
+	us, err := loadUsrSettings()
+	if err != nil {
+		logging.PrintlnError(fmt.Sprint(err))
+		return false, ""
+	}
+
+	err = nil
+	path, err := exec.LookPath(us.Tools.Jadx)
 	if err != nil {
 		logging.PrintlnError("didn't find 'jadx' executable\n")
-		return false
+		return false, ""
 	}
 	logging.PrintlnVerbose("'jadx' executable is in " + path)
 
-	return true
+	return true, path
 }
