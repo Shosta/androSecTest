@@ -69,51 +69,54 @@ func Setup(force bool) {
 		return
 	}
 
+	// Check adb
+	isAdbInstalled := isAdbInstalled()
+	if isAdbInstalled == false {
+		logging.PrintlnError("Adb is mandatory for this app to run.\nInstall it (\"sudo apt-get install adb\"")
+		return
+	}
+
 	// Check apktool
 	isApktoolInstalled, apktoolpath := IsApktoolInstalled()
 	if isApktoolInstalled == false {
-		logging.Print(logging.Green("Where is located ApkTool?") + " (copy and paste the absolute path to your apktool executable, should look like \"/usr/local/bin/apktool\"\n" + logging.Blue(">  "))
+		logging.Print(logging.Green("Where is located ApkTool?") + " (copy and paste the absolute path to your apktool executable, should look like \"/home/Developpement/HackingTools/DecompilingAndroidAppUtils/apktool/apktool.jar\"\n" + logging.Blue(">  "))
 		apktuserentry := terminal.Waitfor()
 		us.Tools.Apktool = apktuserentry
+	} else {
+		us.Tools.Apktool = apktoolpath
 	}
 
 	// Check Jadx
-	isJadxInstalled, apktoolpath := IsJadxInstalled()
+	isJadxInstalled, jadxpath := IsJadxInstalled()
 	if isJadxInstalled == false {
-		logging.Print(logging.Green("Where is located Jadx?") + " (copy and paste the absolute path to your jadx executable, should look like \"/home/user/hacking/tools/jadx/jadx\"\n" + logging.Blue(">  "))
+		logging.Print(logging.Green("Where is located Jadx?") + " (copy and paste the absolute path to your jadx executable, should look like \"/home/Developpement/HackingTools/DecompilingAndroidAppUtils/jadx/bin/jadx\"\n" + logging.Blue(">  "))
 		jadxuserentry := terminal.Waitfor()
 		us.Tools.Jadx = jadxuserentry
+	} else {
+		us.Tools.Jadx = jadxpath
 	}
 
 	// Check SignApk
-	isSignApkInstalled, apktoolpath := IsSignApkInstalled()
+	isSignApkInstalled, signapkpath := IsSignApkInstalled()
 	if isSignApkInstalled == false {
-		logging.Print(logging.Green("Where is located SignApk?") + " (copy and paste the absolute path to your signapk jar file, should look like \"/home/user/hacking/tools/signapk/sign.jar\"\n" + logging.Blue(">  "))
+		logging.Print(logging.Green("Where is located SignApk?") + " (copy and paste the absolute path to your signapk jar file, should look like \"/home/Developpement/HackingTools/SignApkUtils/signapk.jar\"\n" + logging.Blue(">  "))
 		signuserentry := terminal.Waitfor()
 		us.Tools.SignApk = signuserentry
+	} else {
+		us.Tools.SignApk = signapkpath
 	}
 
-	if us.Tools.Jadx == "" || us.Tools.SignApk == "" || us.HackingTools.HumptyDumpty == "" || force == true {
-		// Ask user to fill in the tools paths.
-		logging.Print(logging.Green("Where is located Jadx?") + " (copy and paste the absolute path to your jadx executable, should look like \"/home/user/hacking/tools/jadx/jadx\"\n" + logging.Blue(">  "))
-		jadxuserentry := terminal.Waitfor()
-		us.Tools.Jadx = jadxuserentry
-
-
-		if isApktoolInstalled == false {
-			logging.Print(logging.Green("Where is located ApkTool?") + " (copy and paste the absolute path to your apktool executable, should look like \"/usr/local/bin/apktool\"\n" + logging.Blue(">  "))
-			apktuserentry := terminal.Waitfor()
-			us.Tools.Apktool = apktuserentry
-		} else {
-			us.Tools.Apktool = apktoolpath
-		}
-
-		logging.Print(logging.Green("Where is located Humpty-Dumpty?") + " (copy and paste the absolute path to your humpty-dumpty shell file, should look like \"/home/user/hacking/tools/humpty-dumpty/humpty.sh\"\n" + logging.Blue(">  "))
+	// Check Humpty-Dumpty
+	isHumptyDumptyInstalled, hdpath := IsHumptyDumptyInstalled()
+	if isHumptyDumptyInstalled {
+		logging.Print(logging.Green("Where is located humpty-dumpty ?") + " (copy and paste the absolute path to your humpty-dumpty.sh file, should look like \"/home/Developpement/HackingTools/humpty-dumpty-android-master/humpty.sh\"\n" + logging.Blue(">  "))
 		hduserentry := terminal.Waitfor()
 		us.HackingTools.HumptyDumpty = hduserentry
-
-		saveUsrSettings(us)
+	} else {
+		us.HackingTools.HumptyDumpty = hdpath
 	}
+
+	saveUsrSettings(us)
 }
 
 // It saves the User defined settings into a Json file.

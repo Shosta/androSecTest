@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"fmt"
 	"os/exec"
 
 	"github.com/Shosta/androSecTest/logging"
@@ -33,6 +34,7 @@ func AreAllReady() bool {
 	return true
 }
 
+// isAdbInstalled : Check if adb is in the PATH
 func isAdbInstalled() bool {
 	path, err := exec.LookPath("adb")
 	if err != nil {
@@ -44,15 +46,16 @@ func isAdbInstalled() bool {
 	return true
 }
 
-// IsApktoolInstalled : Return if apktool is in the user's PATH so that we could call it directly when executing a command.
+// IsApktoolInstalled : Check if the path in the User Settings for Apktool is valid
 func IsApktoolInstalled() (bool, string) {
-	path, err := exec.LookPath("apktool")
+	us, err := loadUsrSettings()
+	path, err := exec.LookPath(us.Tools.Apktool)
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
 		return false, ""
 	}
 
-	path, err := exec.LookPath(us.Tools.Apktool)
+	path, err = exec.LookPath(us.Tools.Apktool)
 	if err != nil {
 		logging.PrintlnError("didn't find 'apktool' executable\n")
 		return false, ""
@@ -62,9 +65,8 @@ func IsApktoolInstalled() (bool, string) {
 	return true, path
 }
 
-// IsSignApkInstalled : Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
+// IsSignApkInstalled : Check if the path in the User Settings for SignApk is valid
 func IsSignApkInstalled() (bool, string) {
-	// TODO : Move the signapk executable path to an external folder.
 	us, err := loadUsrSettings()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
@@ -81,9 +83,8 @@ func IsSignApkInstalled() (bool, string) {
 	return true, path
 }
 
-// IsJadxInstalled : Add a setup process at the beginning of the program. And an argument to redo the setup if necessary.
+// IsJadxInstalled : Check if the path in the User Settings for Jdax is valid
 func IsJadxInstalled() (bool, string) {
-	// TODO : Move the jadx executable path to an external folder.
 	us, err := loadUsrSettings()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
@@ -97,6 +98,25 @@ func IsJadxInstalled() (bool, string) {
 		return false, ""
 	}
 	logging.PrintlnVerbose("'jadx' executable is in " + path)
+
+	return true, path
+}
+
+// IsHumptyDumptyInstalled : Check if the path in the User Settings for Humpty-Dumpty is valid
+func IsHumptyDumptyInstalled() (bool, string) {
+	us, err := loadUsrSettings()
+	if err != nil {
+		logging.PrintlnError(fmt.Sprint(err))
+		return false, ""
+	}
+
+	err = nil
+	path, err := exec.LookPath(us.HackingTools.HumptyDumpty)
+	if err != nil {
+		logging.PrintlnError("didn't find 'humpty-dumpty' executable\n")
+		return false, ""
+	}
+	logging.PrintlnVerbose("'humpty-dumpty' executable is in " + path)
 
 	return true, path
 }
