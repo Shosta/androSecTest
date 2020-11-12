@@ -1,5 +1,6 @@
 # Download the Required Hacking Tools
 FROM ubuntu:20.04 as ubuntu-downloader
+LABEL ubuntu-downloader=true
 
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 
@@ -8,7 +9,10 @@ WORKDIR $HACKTOOLS_DIR
 # Install adb tools, unzip, wget, signapk and apktool
 RUN apt update -y && apt install -y  --no-install-recommends \
     wget \
-    unzip
+    unzip && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get purge   --auto-remove && \
+    apt-get clean
 
 # Install SignApk
 RUN mkdir -p SignApkUtils && \
@@ -31,6 +35,7 @@ RUN mkdir -p ./humpty-dumpty-android-master && \
 
 # Build the AndroSecTest App on the golang latest image.
 FROM golang:latest as go-builder
+LABEL go-builder=true
 
 # Environmentn variables
 ENV SRC_DIR=/go/src/github.com/Shosta/androSecTest
@@ -58,19 +63,22 @@ LABEL \
     name="AndroSecTest on Ubuntu" \
     author="Rémi Lavedrine <remi@github.com>" \
     maintainer="Rémi Lavedrine <remi@github.com>" \
-    description="Android Security Test (AndroSecTest) is an automated, all-in-one mobile application (Android) security assessment framework capable of performing static."
+    description="Android Security Test (AndroSecTest) is an automated, all-in-one mobile application (Android) security assessment framework capable of performing static security assessment."
 
 ENV SRC_DIR=/root/go/src/github.com/Shosta/androSecTest
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 WORKDIR $SRC_DIR
 
 # Install adb tools, unzip, wget, signapk and apktool
-RUN apt update -y && apt install -y --no-install-recommends \
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
     openjdk-8-jdk \
     usbutils \
     unzip \
     android-tools-adb \
-    bash-completion
+    bash-completion && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get purge --auto-remove && \
+    apt-get clean
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
