@@ -1,5 +1,6 @@
 # Build the AndroSecTest App on the golang latest image.
-FROM golang:latest as go-builder
+FROM golang:1.15-alpine as go-builder
+LABEL go-builder=true
 
 # Environmentn variables
 ENV SRC_DIR=/go/src/github.com/Shosta/androSecTest
@@ -9,10 +10,10 @@ ENV GIT_SSL_NO_VERIFY=1
 WORKDIR $SRC_DIR
 
 # Copy the source from the current directory to the Working Directory inside the container
-COPY . $SRC_DIR
+COPY . .
 
 # Dowload the Go Dependancies
-RUN go get $SRC_DIR/...
+RUN apk add git && go get ./...
 
 # Build the Go app for a Linux target
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
@@ -20,16 +21,14 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
 
 
 # Download the Required Hacking Tools
-FROM ubuntu:20.04 as ubuntu-downloader
+FROM alpine:latest as alpine-downloader
 
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 
 WORKDIR $HACKTOOLS_DIR
 
 # Install adb tools, unzip, wget, signapk and apktool
-RUN apt update -y && apt install -y  --no-install-recommends \
-    wget \
-    unzip
+RUN apk add wget unzip
 
 # Install SignApk
 RUN mkdir -p SignApkUtils && \
@@ -69,11 +68,11 @@ RUN apk add openjdk8 \
 RUN apk --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ add android-tools
 
 # Copy jadx and apktool
-COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
+COPY --from=alpine-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
 RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
 
 # Copy Humpty-dumpty
-COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
+COPY --from=alpine-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
 
 # Copy the built executable from the go-builder container and add it to this container.
 COPY --from=go-builder /go/src/github.com/Shosta/androSecTest/androSecTest $SRC_DIR
