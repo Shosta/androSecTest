@@ -62,7 +62,12 @@ func PkgPath(pkgname string) string {
 	var args = []string{"shell", "pm", "path", pkgname}
 	var out = runAdb(args...)
 
-	var pkgpath = strings.TrimSpace(strings.Split(out, ":")[1])
+	// package is extracted as followed :
+	// package : /path/to/base.apk \npackage
+	// This function extracts the /path/to/base.apk from this string.
+	var pkgpath = strings.TrimSpace(
+		strings.Split(
+			strings.Split(out, ":")[1], "\n")[0])
 	logging.Println(logging.Green("Path: ") + pkgpath)
 
 	return pkgpath
