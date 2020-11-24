@@ -30,6 +30,9 @@ import (
 // Display a list of packages and let the user choose one of them.
 // It returns the package name the user chose.
 func choose(pkgs []string) string {
+	if len(pkgs) == 2 && pkgs[1] == "" {
+		return strings.Split(pkgs[0], ":")[1]
+	}
 
 	for i, pkg := range pkgs {
 		if pkg != "" {
