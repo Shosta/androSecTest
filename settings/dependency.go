@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
 
 	"github.com/Shosta/androSecTest/logging"
@@ -48,7 +49,7 @@ func isAdbInstalled() bool {
 
 // IsApktoolInstalled : Check if the path in the User Settings for Apktool is valid
 func IsApktoolInstalled() (bool, string) {
-	us, err := loadUsrSettings()
+	us, err := LoadUsrSettings()
 	path, err := exec.LookPath(us.Tools.Apktool)
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
@@ -67,7 +68,7 @@ func IsApktoolInstalled() (bool, string) {
 
 // IsSignApkInstalled : Check if the path in the User Settings for SignApk is valid
 func IsSignApkInstalled() (bool, string) {
-	us, err := loadUsrSettings()
+	us, err := LoadUsrSettings()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
 		return false, ""
@@ -85,7 +86,7 @@ func IsSignApkInstalled() (bool, string) {
 
 // IsJadxInstalled : Check if the path in the User Settings for Jdax is valid
 func IsJadxInstalled() (bool, string) {
-	us, err := loadUsrSettings()
+	us, err := LoadUsrSettings()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
 		return false, ""
@@ -104,19 +105,19 @@ func IsJadxInstalled() (bool, string) {
 
 // IsHumptyDumptyInstalled : Check if the path in the User Settings for Humpty-Dumpty is valid
 func IsHumptyDumptyInstalled() (bool, string) {
-	us, err := loadUsrSettings()
+	us, err := LoadUsrSettings()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
 		return false, ""
 	}
 
-	err = nil
-	path, err := exec.LookPath(us.HackingTools.HumptyDumpty)
-	if err != nil {
+	if _, err := os.Stat(us.HackingTools.HumptyDumpty); err == nil {
+		logging.PrintlnVerbose("'humpty-dumpty' executable is in " + us.HackingTools.HumptyDumpty)
+	}
+	if os.IsNotExist(err) {
 		logging.PrintlnError("didn't find 'humpty-dumpty' executable\n")
 		return false, ""
 	}
-	logging.PrintlnVerbose("'humpty-dumpty' executable is in " + path)
 
-	return true, path
+	return true, us.HackingTools.HumptyDumpty
 }

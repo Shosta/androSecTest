@@ -63,7 +63,7 @@ type HackingTools struct {
 // Setup : It does the Settings set up if we don't know where to look for the external tools required to do the repackaging and the attacks.
 // You can use force=true to setup the settings whatever the values in the usersettings.json file.
 func Setup(force bool) {
-	us, err := loadUsrSettings()
+	us, err := LoadUsrSettings()
 	if err != nil {
 		logging.PrintlnError(fmt.Sprint(err))
 		return
@@ -108,7 +108,7 @@ func Setup(force bool) {
 
 	// Check Humpty-Dumpty
 	isHumptyDumptyInstalled, hdpath := IsHumptyDumptyInstalled()
-	if isHumptyDumptyInstalled {
+	if isHumptyDumptyInstalled == false {
 		logging.Print(logging.Green("Where is located humpty-dumpty ?") + " (copy and paste the absolute path to your humpty-dumpty.sh file, should look like \"/home/Developpement/HackingTools/humpty-dumpty-android-master/humpty.sh\"\n" + logging.Blue(">  "))
 		hduserentry := terminal.Waitfor()
 		us.HackingTools.HumptyDumpty = hduserentry
@@ -132,7 +132,7 @@ func saveUsrSettings(us UserSettings) error {
 
 // It reads the Settings file and update the variables accordingly.
 // When using these tools, we can rely on the user defined ones instead of something hard coded.
-func loadUsrSettings() (UserSettings, error) {
+func LoadUsrSettings() (UserSettings, error) {
 	// TODO il faut déplacer le dossier .res dans /home pour éviter les pbs dans git avec le user root lorsque l'on partage les fichiers entre le container et le local.
 	bytes, err := ioutil.ReadFile("./.res/settings/usersettings.json")
 	if err != nil {
@@ -156,7 +156,7 @@ func loadUsrSettings() (UserSettings, error) {
 
 // SetJadx : Set the path to the Jadx executable in the settings file so that wee could call it later.
 func setJadx(path string) {
-	us, _ := loadUsrSettings()
+	us, _ := LoadUsrSettings()
 	jadxpath = path
 	us.Tools.Jadx = path
 	saveUsrSettings(us)
@@ -164,7 +164,7 @@ func setJadx(path string) {
 
 // SetSignapk : Set the path to the SignApk executable in the settings file so that wee could call it later.
 func setSignapk(path string) {
-	us, _ := loadUsrSettings()
+	us, _ := LoadUsrSettings()
 	signapkpath = path
 	us.Tools.SignApk = path
 	saveUsrSettings(us)
@@ -172,7 +172,7 @@ func setSignapk(path string) {
 
 // SetApktool : Set the path to the apktool executable in the settings file so that wee could call it later.
 func setApktool(path string) {
-	us, _ := loadUsrSettings()
+	us, _ := LoadUsrSettings()
 	apktoolpath = path
 	us.Tools.Apktool = path
 	saveUsrSettings(us)
@@ -180,7 +180,7 @@ func setApktool(path string) {
 
 // SetHumptyDumpty : Set the path to the humpty-dumpty shell script in the settings file so that wee could call it later.
 func setHumptyDumpty(path string) {
-	us, _ := loadUsrSettings()
+	us, _ := LoadUsrSettings()
 	humptydumptypath = path
 	us.HackingTools.HumptyDumpty = path
 	saveUsrSettings(us)
@@ -199,4 +199,9 @@ func SignApk() string {
 // ApkTool :
 func ApkTool() string {
 	return apktoolpath
+}
+
+// HumptyDumpty :
+func HumptyDumpty() string {
+	return humptydumptypath
 }
