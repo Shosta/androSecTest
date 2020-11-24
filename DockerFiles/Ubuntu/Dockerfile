@@ -80,9 +80,9 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     apt-get purge --auto-remove && \
     apt-get clean
 
-# Copy jadx and apktool
-COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
-RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
+# Copy jadx and apktool and signapk
+COPY --from=ubuntu-downloader $HACKTOOLS_DIR/ $HACKTOOLS_DIR/
+RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar && chmod +x $HACKTOOLS_DIR/SignApkUtils/signapk.jar
 
 # Copy Humpty-dumpty
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master

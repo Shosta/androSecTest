@@ -1,5 +1,4 @@
 # The Container that allows to develop the Go app, androSecTest, within a container, without any install.
-
 FROM ubuntu:20.04 as ubuntu-downloader
 
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
@@ -67,10 +66,11 @@ RUN go get github.com/go-delve/delve/cmd/dlv
 RUN go get golang.org/x/tools/gopls
 
 # Copy jadx and apktool
-COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
-RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
+COPY --from=ubuntu-downloader $HACKTOOLS_DIR $HACKTOOLS_DIR
+RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar && chmod +x $HACKTOOLS_DIR/SignApkUtils/signapk.jar
 
 # Copy Humpty-dumpty
+RUN mkdir -r $HACKTOOLS_DIR/humpty-dumpty-android-master
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
 
 # Install zsh as the default shell within the container.
