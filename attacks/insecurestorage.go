@@ -21,11 +21,12 @@ import (
 	"github.com/Shosta/androSecTest/command"
 	"github.com/Shosta/androSecTest/folder"
 	"github.com/Shosta/androSecTest/logging"
+	"github.com/Shosta/androSecTest/settings"
 	"github.com/Shosta/androSecTest/terminal"
 )
 
 func copyDump(pkgname string) {
-	srcDir := "/home/shosta/ShostaSyncBox/Developpement/HackingTools/humpty-dumpty-android-master/dumps/" + pkgname
+	srcDir := settings.HumptyDumpty() + "/dumps/" + pkgname
 	destDir := InsecStorageDirPath(pkgname)
 	logging.PrintlnDebug("Source : " + srcDir)
 	logging.PrintlnDebug("Dest : " + destDir)
@@ -42,10 +43,15 @@ func pullLocalStorage(pkgname string) {
 	logging.Println(logging.Green("Pull every files from the local storage of the \"" + pkgname + "\" package."))
 
 	logging.Println("Work in progress...")
-	var cmd = "/home/shosta/ShostaSyncBox/Developpement/HackingTools/humpty-dumpty-android-master/humpty.sh -a " + pkgname
-	command.RunAlias(cmd)
+	us, err := settings.LoadUsrSettings()
+	if err != nil {
+		var cmd = us.HackingTools.HumptyDumpty + " -a " + pkgname
+		command.RunAlias(cmd)
 
-	logging.Println(logging.Bold("Done"))
+		logging.Println(logging.Bold("Done"))
+	} else {
+		logging.Println(logging.Bold("Can't find humpty-dumpty at " + us.HackingTools.HumptyDumpty + " location."))
+	}
 }
 
 // DoInsecureStorage :

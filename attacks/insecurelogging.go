@@ -61,9 +61,9 @@ func userInputStrInLog(pkgname string) {
 	logging.Print(logging.Blue("Enter the string you want to look for in the log file.\n> "))
 	usrinput := terminal.Waitfor()
 	if usrinput != "" {
-		logging.Println(logging.Green("Looking for \"") + logging.Bold(usrinput) + "\" in log file.")
+		logging.Println(logging.Green("Looking for \"") + logging.Bold(usrinput) + logging.Green("\" in log file."))
 		strInLog(usrinput, pkgname)
-		logging.Print(logging.Blue("Do you want to look for another string? [y][n]\n> "))
+		logging.Println(logging.Blue("Do you want to look for another string ? ") + "[" + logging.Red("y") + "]es [" + logging.Red("n") + "]o")
 		newSearch := terminal.Waitfor()
 		if newSearch == "y" {
 			userInputStrInLog(pkgname)
