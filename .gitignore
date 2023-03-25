@@ -9,3 +9,6 @@ androSecTest
 res/SignApk/README
 
 debug
+
+DockerFiles/Development/veracode
+.dccache
