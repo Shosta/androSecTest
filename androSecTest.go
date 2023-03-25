@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package main : THe main file that starts the program
+// Package main : The main file that starts the program
 package main
 
 import (
