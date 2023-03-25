@@ -1,6 +1,6 @@
 # The Container that allows to develop the Go app, androSecTest, within a container, without any install.
 
-FROM ubuntu:20.04 as ubuntu-downloader
+FROM ubuntu:23.04 as ubuntu-downloader
 
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 
@@ -22,7 +22,8 @@ RUN wget --no-check-certificate --quiet https://github.com/skylot/jadx/releases/
 
 # Download apktool-2 & Rename downloaded jar to apktool.jar
 RUN mkdir -p ./DecompilingAndroidAppUtils/apktool && \
-    wget --no-check-certificate --quiet -O ./DecompilingAndroidAppUtils/apktool/apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.4.1.jar
+    wget --no-check-certificate --quiet -O ./DecompilingAndroidAppUtils/apktool/apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.4.1.jar && \
+    wget --no-check-certificate --quiet -O ./DecompilingAndroidAppUtils/apktool/apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
 
 # Install Humpty-dumpty
 RUN mkdir -p ./humpty-dumpty-android-master && \
@@ -32,7 +33,7 @@ RUN mkdir -p ./humpty-dumpty-android-master && \
 
 
 # Pull Ubuntu LTS image.
-FROM ubuntu:20.04
+FROM ubuntu:23.04
 
 # Labels and Credits
 LABEL \
@@ -58,7 +59,7 @@ RUN apt update -y && apt install -y --no-install-recommends \
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
-RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
+RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool* && cp $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool* /usr/local/bin
 
 # Copy Humpty-dumpty
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
@@ -76,3 +77,16 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 RUN mkdir $SRC_DIR/.res
 COPY ./res/ $SRC_DIR/.res/
+
+# On copie les credentials pour l'authentification de Veracode
+RUN mkdir $HOME/.veracode
+# RUN cp $SRC_DIR/DockerFiles/Development/veracode.txt $HOME/.veracode/credentials
+
+# Install the go tools to debug the app during development.
+RUN apt install -y --reinstall build-essential
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+RUN go install -v golang.org/x/tools/gopls@latest
+
+# S'il y a des erreurs d'importation des modules, il faut ajouter les commandes suivantes : 
+# RUN go mod init
+# RUN go mode tidy

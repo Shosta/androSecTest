@@ -4,21 +4,27 @@
 	"context": "..",
 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
 	"dockerFile": "../DockerFiles/Development/Dockerfile",
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"go.useLanguageServer": true,
-		"terminal.integrated.shell.linux": "/bin/zsh"
+	
+	"customizations": {
+		"vscode": {	
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"golang.go",
+				"eamodio.gitlens",
+				"coenraads.bracket-pair-colorizer",
+				"formulahendry.code-runner",
+				"aaron-bond.better-comments",
+				"oderwat.indent-rainbow",
+				"visualstudioexptteam.vscodeintellicode",
+				"Veracode.veracode-vscode-plugin"
+			],
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"go.useLanguageServer": true,
+				"terminal.integrated.defaultProfile.linux": "zsh"
+			}
+		}
 	},
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"golang.go",
-		"eamodio.gitlens",
-		"coenraads.bracket-pair-colorizer",
-		"formulahendry.code-runner",
-		"aaron-bond.better-comments",
-		"oderwat.indent-rainbow",
-		"visualstudioexptteam.vscodeintellicode"
-	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		5037
