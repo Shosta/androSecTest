@@ -10,5 +10,5 @@ res/SignApk/README
 
 debug
 
-DockerFiles/Development/veracode
+DockerFiles/Development/veracode*
 .dccache
