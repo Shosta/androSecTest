@@ -1,5 +1,5 @@
 # Download the Required Hacking Tools
-FROM ubuntu:20.04 as ubuntu-downloader
+FROM ubuntu as ubuntu-downloader
 
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 
@@ -21,7 +21,8 @@ RUN wget --no-check-certificate --quiet https://github.com/skylot/jadx/releases/
 
 # Download apktool-2 & Rename downloaded jar to apktool.jar
 RUN mkdir -p ./DecompilingAndroidAppUtils/apktool && \
-    wget --no-check-certificate --quiet -O ./DecompilingAndroidAppUtils/apktool/apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.4.1.jar
+    wget --no-check-certificate --quiet -O ./DecompilingAndroidAppUtils/apktool/apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.4.1.jar && \
+    wget --no-check-certificate --quiet -O ./DecompilingAndroidAppUtils/apktool/apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
 
 # Install Humpty-dumpty
 RUN mkdir -p ./humpty-dumpty-android-master && \
@@ -30,9 +31,9 @@ RUN mkdir -p ./humpty-dumpty-android-master && \
 
 
 # Build the AndroSecTest App on the golang latest image.
-FROM golang:latest as go-builder
+FROM golang:1.20 as go-builder
 
-# Environmentn variables
+# Environment variables
 ENV SRC_DIR=/go/src/github.com/Shosta/androSecTest
 ENV GIT_SSL_NO_VERIFY=1
 
@@ -42,7 +43,7 @@ WORKDIR $SRC_DIR
 # Copy the source from the current directory to the Working Directory inside the container
 COPY . $SRC_DIR
 
-# Dowload the Go Dependancies
+# Dowload the Go Dependencies
 RUN go get $SRC_DIR/...
 
 # Build the Go app for a Linux target
@@ -51,7 +52,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
 
 
 # Pull Ubuntu LTS image.
-FROM ubuntu:20.04
+FROM ubuntu
 
 # Labels and Credits
 LABEL \
@@ -74,7 +75,7 @@ RUN apt update -y && apt install -y --no-install-recommends \
 
 # Copy jadx and apktool
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/DecompilingAndroidAppUtils $HACKTOOLS_DIR/DecompilingAndroidAppUtils
-RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool.jar
+RUN chmod +x $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool* && cp $HACKTOOLS_DIR/DecompilingAndroidAppUtils/apktool/apktool* /usr/local/bin
 
 # Copy Humpty-dumpty
 COPY --from=ubuntu-downloader $HACKTOOLS_DIR/humpty-dumpty-android-master $HACKTOOLS_DIR/humpty-dumpty-android-master
