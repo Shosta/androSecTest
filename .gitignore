@@ -7,6 +7,9 @@ debug/*
 # Config Files
 config/config_*
 
+# Secrets file for Security Code Scanning
+ DockerFiles/Development/veracode.txt
+
 # README file from tools
 res/SignApk/README
 
