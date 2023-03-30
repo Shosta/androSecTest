@@ -4,30 +4,34 @@
 	"context": "..",
 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
 	"dockerFile": "../DockerFiles/Development/Dockerfile",
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"go.useLanguageServer": true,
-		"terminal.integrated.shell.linux": "/bin/zsh"
+	
+	"customizations": {
+		"vscode": {	
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"golang.go",
+				"eamodio.gitlens",
+				"coenraads.bracket-pair-colorizer",
+				"formulahendry.code-runner",
+				"aaron-bond.better-comments",
+				"oderwat.indent-rainbow",
+				"visualstudioexptteam.vscodeintellicode",
+				"Veracode.veracode-vscode-plugin",
+				"seatonjiang.gitmoji-vscode"
+			],
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"go.useLanguageServer": true,
+				"terminal.integrated.defaultProfile.linux": "zsh"
+			}
+		}
 	},
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"golang.go",
-		"eamodio.gitlens",
-		"coenraads.bracket-pair-colorizer",
-		"formulahendry.code-runner",
-		"aaron-bond.better-comments",
-		"oderwat.indent-rainbow",
-		"visualstudioexptteam.vscodeintellicode",
-		"ms-cst-e.vscode-devskim"
-	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		5037
 	],
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	"postCreateCommand": "go get ./... && cp -r ./res/SignApk /home/Developpement/HackingTools/SignApkUtils/ && chmod +x /home/Developpement/HackingTools/SignApkUtils/signapk.jar",
-	// Add this line to the beginning of the ~/.zshrc file as I come from bash.
-	"postStartCommand": "sed -i '1i\\'\"export PATH=$HOME/bin:/usr/local/bin:/root/go/bin:$PATH\" ~/.zshrc && cp -R res/watermark .res/watermark && cp -R res/settings/usersettings.json .res/settings",
+	"postCreateCommand": "go get ./... && cp -r ./res/SignApk /home/Developpement/HackingTools/SignApkUtils/ && chmod +x /home/Developpement/HackingTools/SignApkUtils/signapk.jar && mkdir /root/.veracode && cp /root/go/src/github.com/Shosta/androSecTest/DockerFiles/Development/veracode.txt /root/.veracode/credentials",
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",
