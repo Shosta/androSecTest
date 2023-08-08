@@ -50,7 +50,7 @@ RUN mkdir -p ./humpty-dumpty-android-master && \
 
 
 
-FROM alpine:latest
+FROM alpine:3.18.3
 
 # Labels and Credits
 LABEL \
