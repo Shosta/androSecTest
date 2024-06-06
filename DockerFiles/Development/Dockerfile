@@ -1,6 +1,6 @@
 # The Container that allows to develop the Go app, androSecTest, within a container, without any install.
 
-FROM ubuntu:mantic-20240427 as ubuntu-downloader
+FROM ubuntu:mantic-20240530 as ubuntu-downloader
 
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 
@@ -33,7 +33,7 @@ RUN mkdir -p ./humpty-dumpty-android-master && \
 
 
 # Pull Ubuntu LTS image.
-FROM ubuntu:mantic-20240427
+FROM ubuntu:mantic-20240530
 
 # Labels and Credits
 LABEL \
