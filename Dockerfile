@@ -1,5 +1,5 @@
 # Download the Required Hacking Tools
-FROM ubuntu as ubuntu-downloader
+FROM ubuntu:22.10 as ubuntu-downloader
 
 ENV HACKTOOLS_DIR=/home/Developpement/HackingTools
 
@@ -52,7 +52,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o androSecTest .
 
 
 # Pull Ubuntu LTS image.
-FROM ubuntu
+FROM ubuntu:22.10
 
 # Labels and Credits
 LABEL \
